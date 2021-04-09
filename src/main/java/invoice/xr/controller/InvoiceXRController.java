@@ -60,13 +60,6 @@ public class InvoiceXRController {
 		}
 	}
 
-//		Student savedStudent = studentRepository.save(student);
-//
-//		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-//				.buildAndExpand(savedStudent.getId()).toUri();
-//
-//		return ResponseEntity.created(location).build();
-
 	@DeleteMapping("/removeClient/{id}")
 	public String removeClientById(@PathVariable("id") Integer id) {
 		registrationService.removeClientById(id);
@@ -113,27 +106,4 @@ public class InvoiceXRController {
 		registrationService.removeInvoiceUserByName(fullName);
 		return "Delete by name called";
 	}
-
-//	@PostMapping("/removeClient")
-//	public ResponseEntity<Object> removeClient(@RequestBody ClientUser userDetails) {
-//
-//		try {
-//			
-//			System.out.println(userDetails.getId());
-//			ClientUser responseClientUser = registrationService.registerNewClient(userDetails);
-//
-//			return new ResponseEntity<>(responseClientUser, HttpStatus.CREATED);
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//			}
-
-//	@GetMapping("/client/{id}")
-//	public ClientUser clientDetail(@PathVariable String id) {
-//		Optional<Student> student = studentRepository.findById(id);
-//
-//		if (!student.isPresent())
-//			throw new StudentNotFoundException("id-" + id);
-//
-//		return student.get();
-//	}
 }
