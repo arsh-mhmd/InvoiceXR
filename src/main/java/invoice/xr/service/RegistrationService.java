@@ -53,10 +53,8 @@ public class RegistrationService {
 		return registerDao.findClientByLastName(lastName);
 	}
 	
-	public InvoiceUser registerNewInvoiceUser(InvoiceUser invoiceUserDetails) {
+	public void registerNewInvoiceUser(InvoiceUser invoiceUserDetails) {
 		invoiceUserDao.save(invoiceUserDetails);
-		//System.out.print(responseClientUser.getFirstName());
-		return invoiceUserDetails;
 	}
 	
 	public void removeInvoiceUserById(Integer id) {
@@ -73,5 +71,15 @@ public class RegistrationService {
 	
 	public List<InvoiceUser> findInvoiceUserByName(String fullName) {
 		return invoiceUserDao.findInvoiceUserByName(fullName);
+	}
+
+	public boolean checkInvoiceUser(InvoiceUser invoiceUserDetails) {
+		List<InvoiceUser> users = invoiceUserDao.findAllInvoiceUser();
+        for (InvoiceUser user : users) {
+            if (user.getUserName().equals(invoiceUserDetails.getUserName())) {
+                return false;
+            }
+        }
+        return true;
 	}
 }
