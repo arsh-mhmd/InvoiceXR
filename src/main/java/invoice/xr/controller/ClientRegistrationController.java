@@ -54,7 +54,6 @@ public class ClientRegistrationController {
 			System.out.println(userDetails.getFirstName());
 			System.out.println(userDetails.getLastName());
 			System.out.println(userDetails.getContactNo());
-			System.out.println(userDetails.getUserType());
 
 			return new ResponseEntity<>(responseClientUser, HttpStatus.CREATED);
 		} catch (Exception e) {

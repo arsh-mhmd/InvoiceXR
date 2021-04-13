@@ -3,71 +3,89 @@ package invoice.xr.model;
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@Entity
+@Table(name = "InvoiceModel")
 public class InvoiceModel {
+
+	@Id
+	private String id;
 
 	@Column(name = "invoiceNo")
 	private String invoiceNo;
-	
+
 	@Column(name = "invoiceDate")
+	@JsonFormat(pattern="dd-MM-yyyy")
 	private Date invoiceDate;
-	
+
 	@Column(name = "dueDate")
+	@JsonFormat(pattern="dd-MM-yyyy")
 	private Date dueDate;
-	
-	@Column(name = "userId")
-    private String userId;
-	
+
+	@Column(name = "clientId")
+	private String clientId;
+
 	@Column(name = "companyName")
-    private String companyName;
-    
-    @Column(name = "companyStreetName")
-    private String companyStreetName;
-	
+	private String companyName;
+
+	@Column(name = "companyStreetName")
+	private String companyStreetName;
+
 	@Column(name = "companyPostalCode")
-    private String companyPostalCode;
-	
+	private String companyPostalCode;
+
 	@Column(name = "companyTown")
-    private String companyTown;
-	
+	private String companyTown;
+
 	@Column(name = "companyCountry")
-    private String companyCountry;
-	
+	private String companyCountry;
+
 	@Column(name = "dueAmount")
-    private String dueAmount;
-	
+	private String dueAmount;
+
 	@Column(name = "status")
-    private String status;
-	
-    private AddressModel address;
-    private List<OrderEntryModel> entries;
+	private String status;
 
-    public InvoiceModel(String userId, AddressModel address, List<OrderEntryModel> entries) {
-        this.userId = userId;
-        this.address = address;
-        this.entries = entries;
-    }
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id")
+	AddressModel address;
 
-    public String getUserId() {
-        return userId;
-    }
 
-    public Double getTotalPrice() {
-        return getEntries().stream().mapToDouble(OrderEntryModel::getPriceTotal).sum();
-    }
+//	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "order_id")
+//	List<OrderEntryModel> entries;
 
-    public Integer getTotalQuantity() {
-        return getEntries().stream().mapToInt(OrderEntryModel::getQuantity).sum();
-    }
+	private Double salesTax;
+	/*
+	 * public InvoiceModel(String userId, List<OrderEntryModel> entries) {
+	 * this.userId = userId; //this.address = address; this.entries = entries; }
+	 */
 
-    public AddressModel getAddress() {
-        return address;
-    }
-
-    public List<OrderEntryModel> getEntries() {
-        return entries;
-    }
+//	public Double getTotalPrice() {
+//		return getEntries().stream().mapToDouble(OrderEntryModel::getPriceTotal).sum();
+//	}
+//
+//	public Integer getTotalQuantity() {
+//		return getEntries().stream().mapToInt(OrderEntryModel::getQuantity).sum();
+//	}
+//
+//	public Double getGrandTotal() {
+//		return (getTotalPrice() * salesTax) / 100;
+//	}
 
 	public String getInvoiceNo() {
 		return invoiceNo;
@@ -149,15 +167,43 @@ public class InvoiceModel {
 		this.status = status;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Double getSalesTax() {
+		return salesTax;
+	}
+
+	public void setSalesTax(Double salesTax) {
+		this.salesTax = salesTax;
+	}
+	
+//	public List<OrderEntryModel> getEntries() {
+//		return entries;
+//	}
+//
+//	public void setEntries(List<OrderEntryModel> entries) {
+//		this.entries = entries;
+//	}
+
+	public AddressModel getAddress() {
+		return address;
 	}
 
 	public void setAddress(AddressModel address) {
 		this.address = address;
-	}
-
-	public void setEntries(List<OrderEntryModel> entries) {
-		this.entries = entries;
 	}
 }

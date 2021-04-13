@@ -32,9 +32,15 @@ public class ClientUser {
 	@Column(name="contactNo")
 	private String contactNo;
 	
-	@Column(name="userType")
-	private String userType;
+	@Column(name="clientId")
+	private String clientId;
 	
+	public String getClientId() {
+		return clientId;
+	}
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -58,14 +64,6 @@ public class ClientUser {
 	}
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
-	}
-	public String getUserType() {
-		return userType;
-	}
-	public void setUserType(String userType) {
-		this.userType = userType;
-	}
-	
-	
+	}	
 	
 }
