@@ -1,11 +1,19 @@
 package invoice.xr.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "AddressModel")
@@ -13,7 +21,6 @@ public class AddressModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
 	private Integer id;
 	
 	@Column(name = "billingFirstName")
@@ -54,22 +61,10 @@ public class AddressModel {
 	
 	@Column(name = "invoiceNo")
     private String invoiceNo;
-
-    public AddressModel(String billingFirstName, String billingLastName, String billingStreetName, String billingPostalCode, String billingTown, String billingCountry,
-    		String shippingFirstName, String shippingLastName, String shippingStreetName, String shippingPostalCode, String shippingTown, String shippingCountry) {
-        this.billingFirstName = billingFirstName;
-        this.billingLastName = billingLastName;
-        this.billingStreetName = billingStreetName;
-        this.billingPostalCode = billingPostalCode;
-        this.billingTown = billingTown;
-        this.billingCountry = billingCountry;
-        this.shippingFirstName = shippingFirstName;
-        this.shippingLastName = shippingLastName;
-        this.shippingStreetName = shippingStreetName;
-        this.shippingPostalCode = shippingPostalCode;
-        this.shippingTown = shippingTown;
-        this.shippingCountry = shippingCountry;
-    }
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "order_id")
+	List<OrderEntryModel> entries;
 
 	public Integer getId() {
 		return id;
@@ -182,8 +177,13 @@ public class AddressModel {
 	public void setInvoiceNo(String invoiceNo) {
 		this.invoiceNo = invoiceNo;
 	}
-
 	
-    
+	public List<OrderEntryModel> getEntries() {
+		return entries;
+	}
+
+	public void setEntries(List<OrderEntryModel> entries) {
+		this.entries = entries;
+	}  
     
 }
