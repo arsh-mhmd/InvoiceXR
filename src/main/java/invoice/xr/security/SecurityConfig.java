@@ -16,6 +16,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import invoice.xr.service.UserDetailsServiceImpl;
 
 
+/**
+ * @author Arshath Mohammed
+ *
+ */
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {

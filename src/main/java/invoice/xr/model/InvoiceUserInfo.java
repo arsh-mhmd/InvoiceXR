@@ -9,6 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Model to register Manager and Owner of InvoiceXR.
+ * 
+ * @author Arshath Mohammed
+ *
+ */
 @Entity
 @Table(name = "InvoiceUserInfo")
 public class InvoiceUserInfo implements Serializable {

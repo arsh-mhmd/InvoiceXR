@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 import invoice.xr.model.InvoiceModel;
 import invoice.xr.service.InvoiceService;
 
+
+/**
+ * InvoiceController allows Manager or Owner to create invoice.
+ * 
+ * @author Arshath Mohammed
+ *
+ */
 @RestController
 public class InvoiceController {
 

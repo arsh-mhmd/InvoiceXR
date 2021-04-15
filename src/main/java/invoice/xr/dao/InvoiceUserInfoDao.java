@@ -13,8 +13,10 @@ import invoice.xr.model.InvoiceUserInfo;
 @Transactional
 public interface InvoiceUserInfoDao extends CrudRepository<InvoiceUserInfo, String> {
 	public InvoiceUserInfo findByUserNameAndEnabled(String userName, short enabled);
-
-	public List<InvoiceUserInfo> findAllByEnabled(short enabled);
+	
+	public InvoiceUserInfo findByUserName(String userName);
+	
+	public List<InvoiceUserInfo> findAll();
 
 	public InvoiceUserInfo findById(Integer id);
 
@@ -22,6 +24,8 @@ public interface InvoiceUserInfoDao extends CrudRepository<InvoiceUserInfo, Stri
 	public InvoiceUserInfo save(InvoiceUserInfo userInfo);
 
 	public void deleteById(Integer id);
+	
+	public void delete(InvoiceUserInfo invoiceUserInfo);
 }
 
 

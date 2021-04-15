@@ -15,6 +15,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/** 
+ * Model to store address of invoice. id is the foreign key of InvoiceModel table.
+ * order_id field is the foreign key to OrderEntryModel.
+ * 
+ * @author Arshath Mohammed
+ *
+ */
 @Entity
 @Table(name = "AddressModel")
 public class AddressModel {
