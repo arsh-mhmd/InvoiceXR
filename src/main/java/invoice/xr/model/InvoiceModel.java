@@ -18,6 +18,12 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**
+ * Model to create new invoice. address_id is the foreign key of AddressModel.
+ * 
+ * @author Arshath Mohammed
+ *
+ */
 @Entity
 @Table(name = "InvoiceModel")
 public class InvoiceModel {

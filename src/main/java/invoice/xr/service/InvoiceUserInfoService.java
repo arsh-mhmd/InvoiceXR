@@ -10,6 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import invoice.xr.model.InvoiceUserInfo;
 import invoice.xr.dao.InvoiceUserInfoDao;
 
+/**
+ * @author Arshath Mohammed
+ *
+ */
 @Repository
 @Transactional
 public class InvoiceUserInfoService {
@@ -23,7 +27,7 @@ public class InvoiceUserInfoService {
 	}
 
 	public List<InvoiceUserInfo> getAllActiveUserInfo() {
-		return invoiceUserInfoDao.findAllByEnabled((short) 1);
+		return invoiceUserInfoDao.findAll();
 	}
 
 	public InvoiceUserInfo getUserInfoById(Integer id) {
@@ -58,6 +62,15 @@ public class InvoiceUserInfoService {
 		InvoiceUserInfo userInfo = invoiceUserInfoDao.findById(id);
 		userInfo.setRole(userRecord.getRole());
 		return invoiceUserInfoDao.save(userInfo);
+	}
+	
+	public void removeInvoiceUserByUserName(String userName) {
+		InvoiceUserInfo invoiceUserInfo = invoiceUserInfoDao.findByUserName(userName);
+		invoiceUserInfoDao.delete(invoiceUserInfo);
+	}
+
+	public void removeInvoiceUserById(Integer id) {
+		invoiceUserInfoDao.deleteById(id);
 	}
 }
 

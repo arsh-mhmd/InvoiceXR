@@ -17,6 +17,10 @@ import invoice.xr.dao.InvoiceDao;
 import invoice.xr.dao.AddressDao;
 import invoice.xr.dao.OrderEntryDao;
 
+/**
+ * @author Arshath Mohammed
+ *
+ */
 @Service
 public class InvoiceService {
 
@@ -78,6 +82,14 @@ public class InvoiceService {
 	private String generateInvoiceId() {
 		String uniqueID = UUID.randomUUID().toString();
 		return uniqueID;
+	}
+
+	public void removeInvoiceById(String id) {
+		InvoiceModel invoiceModel = invoiceDao.getAddressId(id);
+		Integer addressId = invoiceModel.getAddress().getId();
+		orderEntryDao.deleteEntriesByOrderId(addressId);
+		invoiceDao.deleteInvoiceById(id);
+		addressDao.deleteAddressById(addressId);
 	}
 
 }

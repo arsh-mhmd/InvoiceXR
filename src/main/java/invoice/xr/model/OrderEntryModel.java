@@ -10,6 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Model which has order items of invoice. Related to AddressModel with id field.
+ * @author Arshath Mohammed
+ *
+ */
 @Entity
 @Table(name = "OrderEntryModel")
 public class OrderEntryModel {
