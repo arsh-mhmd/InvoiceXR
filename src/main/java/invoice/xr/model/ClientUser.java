@@ -11,7 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * @author arshm
+ * Model to create new Client.
+ * 
+ * @author Arshath Mohammed
  *
  */
 @Entity
@@ -23,49 +25,59 @@ public class ClientUser {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name="firstName")
-	private String firstName;
+	@Column(name="clientName")
+	private String clientName;
 	
-	@Column(name="lastName")
-	private String lastName;
+	@Column(name="industry")
+	private String industry;
 	
 	@Column(name="contactNo")
 	private String contactNo;
 	
-	@Column(name="userType")
-	private String userType;
+	@Column(name="clientId")
+	private String clientId;
 	
+	@Column(name="dueAmount")
+	private Double dueAmount;
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getFirstName() {
-		return firstName;
+
+	public String getClientName() {
+		return clientName;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
 	}
-	public String getLastName() {
-		return lastName;
+
+	public String getIndustry() {
+		return industry;
 	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+
+	public void setIndustry(String industry) {
+		this.industry = industry;
 	}
+
 	public String getContactNo() {
 		return contactNo;
 	}
+
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
 	}
-	public String getUserType() {
-		return userType;
+
+	public String getClientId() {
+		return clientId;
 	}
-	public void setUserType(String userType) {
-		this.userType = userType;
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
 	}
-	
-	
 	
 }

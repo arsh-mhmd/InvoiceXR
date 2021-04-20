@@ -4,22 +4,17 @@
 package invoice.xr.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import invoice.xr.dao.InvoiceUserDao;
 import invoice.xr.dao.RegisterDao;
 import invoice.xr.model.ClientUser;
-import invoice.xr.model.InvoiceUser;
 
 
 /**
- * @author arshm
+ * @author Arshath Mohammed
  *
  */
 @Service
@@ -28,50 +23,36 @@ public class RegistrationService {
 	@Autowired
 	RegisterDao registerDao;
 	
-	@Autowired
-	InvoiceUserDao invoiceUserDao;
-	
 	public ClientUser registerNewClient(ClientUser userDetails) {
+		userDetails.setClientId(generateClientId());
 		registerDao.save(userDetails);
 		//System.out.print(responseClientUser.getFirstName());
 		return userDetails;
+	}
+	
+	private String generateClientId() {
+		String uniqueID = UUID.randomUUID().toString();
+		return uniqueID;
 	}
 	
 	public void removeClientById(Integer id) {
 		registerDao.deleteById(id);
 	}
 	
-	public void removeClientByFirstName(String firstName) {
-		registerDao.deleteClientByFirstName(firstName);
+	public void removeClientByClientName(String clientName) {
+		registerDao.deleteClientByClientName(clientName);
 	}
 	
 	public List<ClientUser> getAllClientDetail() {
 		return registerDao.findAllClient();
 	}
 	
-	public List<ClientUser> findClientByName(String lastName) {
-		return registerDao.findClientByLastName(lastName);
+	public List<ClientUser> findClientByClientName(String clientName) {
+		return registerDao.findClientByClientName(clientName);
 	}
 	
-	public InvoiceUser registerNewInvoiceUser(InvoiceUser invoiceUserDetails) {
-		invoiceUserDao.save(invoiceUserDetails);
-		//System.out.print(responseClientUser.getFirstName());
-		return invoiceUserDetails;
+	public ClientUser findClientById(String clientId) {
+		return registerDao.findClientById(clientId);
 	}
 	
-	public void removeInvoiceUserById(Integer id) {
-		invoiceUserDao.deleteById(id);
-	}
-	
-	public void removeInvoiceUserByName(String fullName) {
-		invoiceUserDao.deleteInvoiceUserByName(fullName);
-	}
-	
-	public List<InvoiceUser> getAllInvoiceUserDetail() {
-		return invoiceUserDao.findAllInvoiceUser();
-	}
-	
-	public List<InvoiceUser> findInvoiceUserByName(String fullName) {
-		return invoiceUserDao.findInvoiceUserByName(fullName);
-	}
 }
