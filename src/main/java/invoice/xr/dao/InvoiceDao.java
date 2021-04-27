@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import invoice.xr.model.InvoiceModel;
 
+import java.util.Date;
+import java.util.List;
+
 public interface InvoiceDao extends Repository<InvoiceModel, Integer> {
 
 	void save(InvoiceModel invoiceModel);
@@ -21,7 +24,19 @@ public interface InvoiceDao extends Repository<InvoiceModel, Integer> {
 	@Transactional(readOnly = true)
 	InvoiceModel getAddressId(String id);
 	
-	
+
+	@Query("SELECT * from InvoiceModel invoiceModel where invoiceModel.status=:status")
+	@Transactional(readOnly = true)
+	List<InvoiceModel> getReportByStatus(String status);
+
+	@Query("SELECT * from InvoiceModel invoiceModel where invoiceModel.clientId=:ClientId")
+	@Transactional(readOnly = true)
+	List<InvoiceModel>  getReportByClientId(String ClientId);
+
+	@Query("SELECT * from InvoiceModel invoiceModel where invoiceModel.invoiceDate<:date")
+	@Transactional(readOnly = true)
+	List<InvoiceModel>  getReportByDate(Date date);
+
 //	DELETE FROM `invoicexr`.`invoice_model` WHERE (`id` = '03276b95-d5b9-4b14-8534-3b1814ef5bb0');
 //	DELETE FROM `invoicexr`.`address_model` WHERE (`id` = '46');
 //
