@@ -92,4 +92,8 @@ public class InvoiceService {
 		addressDao.deleteAddressById(addressId);
 	}
 
+	public List<InvoiceModel> getAllInvoices() {
+		return invoiceDao.findAllInvoices();
+	}
+
 }
