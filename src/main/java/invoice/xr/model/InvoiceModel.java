@@ -65,33 +65,19 @@ public class InvoiceModel {
 
 	@Column(name = "status")
 	private String status;
+	
+	@Column(name = "createdBy")
+	private String createdBy;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id")
 	AddressModel address;
 
 
-//	@OneToMany(cascade = CascadeType.ALL)
-//	@JoinColumn(name = "order_id")
-//	List<OrderEntryModel> entries;
-
-	private Double salesTax;
 	/*
 	 * public InvoiceModel(String userId, List<OrderEntryModel> entries) {
 	 * this.userId = userId; //this.address = address; this.entries = entries; }
 	 */
-
-//	public Double getTotalPrice() {
-//		return getEntries().stream().mapToDouble(OrderEntryModel::getPriceTotal).sum();
-//	}
-//
-//	public Integer getTotalQuantity() {
-//		return getEntries().stream().mapToInt(OrderEntryModel::getQuantity).sum();
-//	}
-//
-//	public Double getGrandTotal() {
-//		return (getTotalPrice() * salesTax) / 100;
-//	}
 
 	public String getInvoiceNo() {
 		return invoiceNo;
@@ -188,22 +174,6 @@ public class InvoiceModel {
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	public Double getSalesTax() {
-		return salesTax;
-	}
-
-	public void setSalesTax(Double salesTax) {
-		this.salesTax = salesTax;
-	}
-	
-//	public List<OrderEntryModel> getEntries() {
-//		return entries;
-//	}
-//
-//	public void setEntries(List<OrderEntryModel> entries) {
-//		this.entries = entries;
-//	}
 
 	public AddressModel getAddress() {
 		return address;
