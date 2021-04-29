@@ -25,15 +25,15 @@ public interface InvoiceDao extends Repository<InvoiceModel, Integer> {
 	InvoiceModel getAddressId(String id);
 	
 
-	@Query("SELECT * from InvoiceModel invoiceModel where invoiceModel.status=:status")
+	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.status=:status")
 	@Transactional(readOnly = true)
 	List<InvoiceModel> getReportByStatus(String status);
 
-	@Query("SELECT * from InvoiceModel invoiceModel where invoiceModel.clientId=:ClientId")
+	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.clientId=:ClientId")
 	@Transactional(readOnly = true)
 	List<InvoiceModel>  getReportByClientId(String ClientId);
 
-	@Query("SELECT * from InvoiceModel invoiceModel where invoiceModel.invoiceDate<:date")
+	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.invoiceDate<:date")
 	@Transactional(readOnly = true)
 	List<InvoiceModel>  getReportByDate(Date date);
 
