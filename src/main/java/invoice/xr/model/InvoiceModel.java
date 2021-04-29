@@ -61,7 +61,10 @@ public class InvoiceModel {
 	private String companyCountry;
 
 	@Column(name = "dueAmount")
-	private String dueAmount;
+	private Double dueAmount;
+	
+	@Column(name = "paidAmount")
+	private Double paidAmount;
 
 	@Column(name = "status")
 	private String status;
@@ -143,12 +146,28 @@ public class InvoiceModel {
 		this.companyCountry = companyCountry;
 	}
 
-	public String getDueAmount() {
+	public Double getDueAmount() {
 		return dueAmount;
 	}
 
-	public void setDueAmount(String dueAmount) {
+	public void setDueAmount(Double dueAmount) {
 		this.dueAmount = dueAmount;
+	}
+
+	public Double getPaidAmount() {
+		return paidAmount;
+	}
+
+	public void setPaidAmount(Double paidAmount) {
+		this.paidAmount = paidAmount;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 
 	public String getStatus() {
