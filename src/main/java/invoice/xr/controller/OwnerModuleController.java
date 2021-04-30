@@ -1,10 +1,15 @@
 package invoice.xr.controller;
 
+<<<<<<< HEAD
 
 import java.util.List;
 
 
 
+=======
+import java.util.List;
+
+>>>>>>> master
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,8 +44,11 @@ public class OwnerModuleController {
 	
 	@Autowired
 	private InvoiceService invoiceService;
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> master
 	
 	@GetMapping("/")
 	public String home() {
@@ -113,7 +121,11 @@ public class OwnerModuleController {
 		userService.removeInvoiceUserByUserName(userName);
 		return "Invoice User Deleted";
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> master
 	/**
 	 * getInvoiceUserById is used fetch manager by id
 	 * 
@@ -128,5 +140,9 @@ public class OwnerModuleController {
 		}
 		return new ResponseEntity<>(userInfo, HttpStatus.OK);
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> master
 }
