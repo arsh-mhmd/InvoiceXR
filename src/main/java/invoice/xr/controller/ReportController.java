@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,7 +36,7 @@ public class ReportController {
 
 
 	// generate invoice pdf
-    @PostMapping(value = "/generate", produces = "application/pdf")
+    @GetMapping(value = "/generate", produces = "application/pdf")
     public ResponseEntity<InputStreamResource> invoiceGenerate(@RequestParam(name = "invoiceNo", defaultValue = "IN-20210412213814") String invoiceNo) throws IOException {
         logger.info("Start invoice generation...");
         final InvoiceModel invoice = invoiceService.getInvoice(invoiceNo);
