@@ -1,10 +1,10 @@
 package invoice.xr.controller;
 
-
+import java.util.Date;
 import java.util.List;
 
-
-
+import invoice.xr.model.InvoiceModel;
+import invoice.xr.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -40,7 +40,8 @@ public class OwnerModuleController {
 	@Autowired
 	private InvoiceService invoiceService;
 
-
+	@Autowired
+	private ReportService reportService;
 	
 	@GetMapping("/")
 	public String home() {
