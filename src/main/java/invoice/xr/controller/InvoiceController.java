@@ -38,6 +38,12 @@ public class InvoiceController {
 //			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 //		}
 	}
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> Stashed changes
 	
 	@GetMapping("/getAllInvoices")
 	public ResponseEntity<List<InvoiceModel>> getAllInvoices() {
@@ -45,4 +51,8 @@ public class InvoiceController {
 		return new ResponseEntity<>(invoiceList, HttpStatus.OK);
 	}
 	
+<<<<<<< Updated upstream
+=======
+>>>>>>> master
+>>>>>>> Stashed changes
 }

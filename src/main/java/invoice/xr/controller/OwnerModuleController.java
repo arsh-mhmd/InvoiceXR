@@ -123,5 +123,48 @@ public class OwnerModuleController {
 		}
 		return new ResponseEntity<>(userInfo, HttpStatus.OK);
 	}
+<<<<<<< Updated upstream
 	
+=======
+
+	/**
+	 *  getInvoiceByDate is used for owner to create report based on Date
+	 *  following code were wrote by Jay
+	 */
+	@GetMapping("/createReportByDate")
+	public  ResponseEntity<List<InvoiceModel>> getInvoiceByDate(@RequestParam(value = "date")Date date){
+		List<InvoiceModel> report= reportService.createReportByDate(date);
+		if (report == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(report, HttpStatus.OK);
+	}
+
+	/**
+	 *  getInvoiceByStatus is used for owner to create report based on payment status
+	 *
+	 */
+	@GetMapping("/createReportByStatus")
+	public  ResponseEntity<List<InvoiceModel>> getInvoiceByStatus(@RequestParam(value = "status")String status){
+		List<InvoiceModel> report= reportService.createReportByStatus(status);
+		if (report == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(report, HttpStatus.OK);
+	}
+
+	/**
+	 *  getInvoiceByClientId is used for owner to create report based on payment status
+	 *
+	 */
+	@GetMapping("/createReportByClientId")
+	public  ResponseEntity<List<InvoiceModel>> getInvoiceByClientId(@RequestParam(value = "id")String id){
+		List<InvoiceModel> report= reportService.createReportByClientId(id);
+		if (report == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(report, HttpStatus.OK);
+	}
+
+>>>>>>> Stashed changes
 }
