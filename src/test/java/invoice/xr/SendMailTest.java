@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
+/*
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class SendMailTest {
@@ -17,6 +17,7 @@ public class SendMailTest {
     /**
      * test normal email
      */
+/*
     @Test
     public void sendmail () {
         mailService.sendSimpleMail("juewolf@bupt.edu.cn", "subject：hello, this is normal email", "content：the first email");
@@ -25,9 +26,11 @@ public class SendMailTest {
     /**
      * test file email
      */
+/*
     @Test
     public void sendmailFiles () {
 
         mailService.sendAttachmentsMail("juewolf@bupt.edu.cn", "subject：hello, this is files email", "content：the first files email","src/test/java/invoice/xr/test.docx");
     }
 }
+*/

@@ -1,7 +1,10 @@
 package invoice.xr.controller;
 
+import java.util.Date;
 import java.util.List;
 
+import invoice.xr.model.InvoiceModel;
+import invoice.xr.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,6 +39,9 @@ public class OwnerModuleController {
 	
 	@Autowired
 	private InvoiceService invoiceService;
+
+	@Autowired
+	private ReportService reportService;
 	
 	@GetMapping("/")
 	public String home() {
@@ -123,6 +129,7 @@ public class OwnerModuleController {
 		}
 		return new ResponseEntity<>(userInfo, HttpStatus.OK);
 	}
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 	
 =======
@@ -130,6 +137,12 @@ public class OwnerModuleController {
 	/**
 	 *  getInvoiceByDate is used for owner to create report based on Date
 	 *  following code were wrote by Jay
+=======
+
+	/**
+	 *  getInvoiceByDate is used for owner to create report based on Date
+	 *
+>>>>>>> Jay
 	 */
 	@GetMapping("/createReportByDate")
 	public  ResponseEntity<List<InvoiceModel>> getInvoiceByDate(@RequestParam(value = "date")Date date){
@@ -166,5 +179,8 @@ public class OwnerModuleController {
 		return new ResponseEntity<>(report, HttpStatus.OK);
 	}
 
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> Jay
 }
