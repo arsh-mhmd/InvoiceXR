@@ -17,7 +17,6 @@ import javax.persistence.Transient;
 
 /** 
  * Model to store address of invoice. id is the foreign key of InvoiceModel table.
- * 
  * order_id field is the foreign key to OrderEntryModel.
  * 
  * @author Arshath Mohammed
@@ -73,28 +72,6 @@ public class AddressModel {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "order_id")
 	List<OrderEntryModel> entries;
-	
-	private Double salesTax;
-	
-	public Double getTotalPrice() {
-		return getEntries().stream().mapToDouble(OrderEntryModel::getPriceTotal).sum();
-	}
-
-	public Integer getTotalQuantity() {
-		return getEntries().stream().mapToInt(OrderEntryModel::getQuantity).sum();
-	}
-
-	public Double getGrandTotal() {
-		return (getTotalPrice() * salesTax) / 100;
-	}
-	
-	public Double getSalesTax() {
-		return salesTax;
-	}
-
-	public void setSalesTax(Double salesTax) {
-		this.salesTax = salesTax;
-	}
 
 	public Integer getId() {
 		return id;
@@ -216,7 +193,4 @@ public class AddressModel {
 		this.entries = entries;
 	}  
     
-	public int getEntriesSize() {
-		return entries.size();
-	}
 }
