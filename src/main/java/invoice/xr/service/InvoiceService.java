@@ -1,21 +1,46 @@
 package invoice.xr.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.jasperreports.JasperReportsUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import invoice.xr.model.AddressModel;
 import invoice.xr.model.InvoiceModel;
 import invoice.xr.model.OrderEntryModel;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import invoice.xr.dao.InvoiceDao;
 import invoice.xr.dao.AddressDao;
 import invoice.xr.dao.OrderEntryDao;
+import invoice.xr.dao.ReportDao;
 
 /**
  * @author Arshath Mohammed
@@ -30,7 +55,17 @@ public class InvoiceService {
 	private AddressDao addressDao;
 	@Autowired
 	private OrderEntryDao orderEntryDao;
+	@Autowired
+	private ReportDao reportDao;
 
+	private static Logger logger = LogManager.getLogger(InvoiceService.class);
+
+    @Value("${invoice.logo.path}")
+    private String logo_path;
+
+    @Value("${invoice.template.path}")
+    private String invoice_template;
+    
 	public void createNewInvoice(InvoiceModel invoiceDetails) {
 		invoiceDetails.setInvoiceNo(generateInvoiceNo(invoiceDetails.getInvoiceDate()));
 		invoiceDetails.setId(generateInvoiceId());
@@ -91,5 +126,72 @@ public class InvoiceService {
 		invoiceDao.deleteInvoiceById(id);
 		addressDao.deleteAddressById(addressId);
 	}
+
+	public List<InvoiceModel> getAllInvoices() {
+		return invoiceDao.findAllInvoices();
+	}
+	
+	public JasperPrint exportPdfFile() throws SQLException, JRException, IOException {
+		return reportDao.exportPdfFile();
+	}
+
+	public InvoiceModel getInvoice(String invoiceNo) {
+		List<InvoiceModel> invoiceList = invoiceDao.findAllInvoices();
+		for(InvoiceModel invoice : invoiceList) {
+			if(invoice.getInvoiceNo().equalsIgnoreCase(invoiceNo)) {
+				return invoice;
+			}
+		}
+		return null;
+	}
+	
+	public File generateInvoiceFor(InvoiceModel invoice) throws IOException {
+
+        File pdfFile = File.createTempFile("Invoice", ".pdf");
+
+        logger.info(String.format("Invoice pdf path : %s", pdfFile.getAbsolutePath()));
+
+        try(FileOutputStream pos = new FileOutputStream(pdfFile))
+        {
+            // Load invoice JRXML template.
+            final JasperReport report = loadTemplate();
+
+            // Fill parameters map.
+            final Map<String, Object> parameters = parameters(invoice);
+
+            // Create an empty datasource.
+            final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(Collections.singletonList("Invoice"));
+
+            // Render the invoice as a PDF file.
+            JasperReportsUtils.renderAsPdf(report, parameters, dataSource, pos);
+
+            // return file.
+            return pdfFile;
+        }
+        catch (final Exception e)
+        {
+            logger.error(String.format("An error occured during PDF creation: %s", e));
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Fill template order params
+    private Map<String, Object> parameters(InvoiceModel invoice) {
+        final Map<String, Object> parameters = new HashMap<>();
+        parameters.put("logo", getClass().getResourceAsStream(logo_path));
+        parameters.put("invoice",  invoice);
+        return parameters;
+    }
+
+    // Load invoice JRXML template
+    private JasperReport loadTemplate() throws JRException {
+
+        logger.info(String.format("Invoice template path : %s", invoice_template));
+
+        final InputStream reportInputStream = getClass().getResourceAsStream(invoice_template);
+        final JasperDesign jasperDesign = JRXmlLoader.load(reportInputStream);
+
+        return JasperCompileManager.compileReport(jasperDesign);
+    }
 
 }
