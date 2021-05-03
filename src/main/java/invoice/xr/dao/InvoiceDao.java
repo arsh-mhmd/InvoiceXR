@@ -24,6 +24,9 @@ public interface InvoiceDao extends Repository<InvoiceModel, Integer> {
 	@Transactional(readOnly = true)
 	InvoiceModel getAddressId(String id);
 	
+	@Query("SELECT invoiceModel from InvoiceModel invoiceModel")
+	@Transactional(readOnly = true)
+	List<InvoiceModel> findAllInvoices();
 
 	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.status=:status")
 	@Transactional(readOnly = true)
