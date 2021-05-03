@@ -34,6 +34,7 @@ import org.springframework.util.ResourceUtils;
 import invoice.xr.model.AddressModel;
 import invoice.xr.model.InvoiceModel;
 import invoice.xr.model.OrderEntryModel;
+import lombok.NonNull;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -180,6 +181,29 @@ public class InvoiceService {
         final Map<String, Object> parameters = new HashMap<>();
         parameters.put("logo", getClass().getResourceAsStream(logo_path));
         parameters.put("invoice",  invoice);
+        parameters.put("address",  invoice.getAddress());
+        parameters.put("invoiceNo",  invoice.getInvoiceNo());
+        parameters.put("billingFirstName",  invoice.getAddress().getBillingFirstName());
+        parameters.put("billingLastName",  invoice.getAddress().getBillingLastName());
+        parameters.put("billingStreetName",  invoice.getAddress().getBillingStreetName());
+        parameters.put("billingTown",  invoice.getAddress().getBillingTown());
+        parameters.put("billingCountry",  invoice.getAddress().getBillingCountry());
+        parameters.put("billingPostalCode",  invoice.getAddress().getBillingPostalCode());
+        parameters.put("shippingFirstName",  invoice.getAddress().getShippingFirstName());
+        parameters.put("shippingLastName",  invoice.getAddress().getShippingLastName());
+        parameters.put("shippingStreetName",  invoice.getAddress().getShippingStreetName());
+        parameters.put("shippingTown",  invoice.getAddress().getShippingTown());
+        parameters.put("shippingCountry",  invoice.getAddress().getShippingCountry());
+        parameters.put("shippingPostalCode",  invoice.getAddress().getShippingPostalCode());
+        parameters.put("entriesSize",  invoice.getAddress().getEntriesSize());
+        parameters.put("tax",  invoice.getAddress().getSalesTax());
+        parameters.put("invoiceDate",  invoice.getInvoiceDate());
+        parameters.put("dueDate",  invoice.getDueDate());
+        parameters.put("dueAmount",  invoice.getDueAmount());
+        parameters.put("withDue",  invoice.getDueAmount()!=null? invoice.getDueAmount() + invoice.getAddress().getTotalPrice() + invoice.getAddress().getGrandTotal() : invoice.getAddress().getTotalPrice() + invoice.getAddress().getGrandTotal());
+        parameters.put("grandTotal",  invoice.getAddress().getGrandTotal() );
+        parameters.put("finalPrice",  (invoice.getAddress().getTotalPrice() + invoice.getAddress().getGrandTotal()));
+        
         return parameters;
     }
 

@@ -23,7 +23,7 @@ public class InvoiceUserInfoService {
 
 	public InvoiceUserInfo getUserInfoByUserName(String userName) {
 		short enabled = 1;
-		return invoiceUserInfoDao.findByUserNameAndEnabled(userName, enabled);
+		return invoiceUserInfoDao.findByUserName(userName);
 	}
 
 	public List<InvoiceUserInfo> getAllActiveUserInfo() {
