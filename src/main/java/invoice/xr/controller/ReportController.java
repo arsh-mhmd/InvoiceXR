@@ -27,6 +27,7 @@ import invoice.xr.service.InvoiceService;
  *
  */
 @RestController
+@RequestMapping("/report")
 public class ReportController {
 
 	@Autowired
