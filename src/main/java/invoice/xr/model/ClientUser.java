@@ -25,14 +25,29 @@ public class ClientUser {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name="clientName")
-	private String clientName;
+	@Column(name="firstName")
+	private String firstName;
+	
+	@Column(name="lastName")
+	private String lastName;
 	
 	@Column(name="industry")
 	private String industry;
 	
-	@Column(name="contactNo")
-	private String contactNo;
+	@Column(name="email")
+	private String email;
+	
+	@Column(name="streetName")
+	private String streetName;
+	
+	@Column(name="postalCode")
+	private String postalCode;
+	
+	@Column(name="town")
+	private String town;
+	
+	@Column(name="country")
+	private String country;
 	
 	@Column(name="clientId")
 	private String clientId;
@@ -48,14 +63,6 @@ public class ClientUser {
 		this.id = id;
 	}
 
-	public String getClientName() {
-		return clientName;
-	}
-
-	public void setClientName(String clientName) {
-		this.clientName = clientName;
-	}
-
 	public String getIndustry() {
 		return industry;
 	}
@@ -64,20 +71,76 @@ public class ClientUser {
 		this.industry = industry;
 	}
 
-	public String getContactNo() {
-		return contactNo;
-	}
-
-	public void setContactNo(String contactNo) {
-		this.contactNo = contactNo;
-	}
-
 	public String getClientId() {
 		return clientId;
 	}
 
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getStreetName() {
+		return streetName;
+	}
+
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getTown() {
+		return town;
+	}
+
+	public void setTown(String town) {
+		this.town = town;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public Double getDueAmount() {
+		return dueAmount;
+	}
+
+	public void setDueAmount(Double dueAmount) {
+		this.dueAmount = dueAmount;
 	}
 	
 }
