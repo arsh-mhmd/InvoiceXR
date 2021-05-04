@@ -1,5 +1,6 @@
 package invoice.xr.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Modifying;
@@ -35,4 +36,16 @@ public interface InvoiceDao extends Repository<InvoiceModel, Integer> {
 //	DELETE FROM `invoicexr`.`order_entry_model` WHERE (`id` = '48');
 //	DELETE FROM `invoicexr`.`order_entry_model` WHERE (`id` = '49');
 //	DELETE FROM `invoicexr`.`order_entry_model` WHERE (`id` = '51')
+
+	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.status=:status")
+    @Transactional(readOnly = true)
+	List<InvoiceModel> getReportByStatus(String status);
+
+	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.clientId=:ClientId")
+	@Transactional(readOnly = true)
+	List<InvoiceModel>  getReportByClientId(String ClientId);
+
+	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.invoiceDate<:date")
+	@Transactional(readOnly = true)
+	List<InvoiceModel>  getReportByDate(Date date);
 }
