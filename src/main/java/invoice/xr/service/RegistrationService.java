@@ -39,16 +39,16 @@ public class RegistrationService {
 		registerDao.deleteById(id);
 	}
 	
-	public void removeClientByClientName(String clientName) {
-		registerDao.deleteClientByClientName(clientName);
+	public void removeClientByClientName(String firstName) {
+		registerDao.deleteClientByClientName(firstName);
 	}
 	
 	public List<ClientUser> getAllClientDetail() {
 		return registerDao.findAllClient();
 	}
 	
-	public List<ClientUser> findClientByClientName(String clientName) {
-		return registerDao.findClientByClientName(clientName);
+	public List<ClientUser> findClientByClientName(String firstName) {
+		return registerDao.findClientByClientName(firstName);
 	}
 	
 	public ClientUser findClientById(String clientId) {

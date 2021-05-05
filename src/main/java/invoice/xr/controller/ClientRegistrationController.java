@@ -43,8 +43,8 @@ public class ClientRegistrationController {
 	}
 
 	@GetMapping("/findClient")
-	public ResponseEntity<List<ClientUser>> findClientByClientName(@RequestParam(value = "clientName") String clientName) {
-		List<ClientUser> clientUsersList = registrationService.findClientByClientName(clientName);
+	public ResponseEntity<List<ClientUser>> findClientByClientName(@RequestParam(value = "firstName") String firstName) {
+		List<ClientUser> clientUsersList = registrationService.findClientByClientName(firstName);
 		return new ResponseEntity<>(clientUsersList, HttpStatus.OK);
 	}
 	
@@ -73,8 +73,8 @@ public class ClientRegistrationController {
 	}
 
 	@DeleteMapping("/removeClient")
-	public String removeClientByClientName(@RequestParam(value = "firstName") String clientName) {
-		registrationService.removeClientByClientName(clientName);
+	public String removeClientByClientName(@RequestParam(value = "firstName") String firstName) {
+		registrationService.removeClientByClientName(firstName);
 		return "Delete by name called";
 	}
 
