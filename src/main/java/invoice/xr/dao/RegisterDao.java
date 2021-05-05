@@ -16,9 +16,9 @@ public interface RegisterDao extends Repository<ClientUser, Integer> {
 	
 	
 	
-	@Query("SELECT clientUser from ClientUser clientUser where clientUser.clientName IN (:clientName)")
+	@Query("SELECT clientUser from ClientUser clientUser where clientUser.firstName IN (:firstName)")
 	@Transactional(readOnly = true)
-	List<ClientUser> findClientByClientName(@Param("clientName") String clientName);
+	List<ClientUser> findClientByClientName(@Param("firstName") String firstName);
 	
 	@Query("SELECT clientUser from ClientUser clientUser where clientUser.clientId IN (:clientId)")
 	@Transactional(readOnly = true)
@@ -30,8 +30,8 @@ public interface RegisterDao extends Repository<ClientUser, Integer> {
 	
 	@Modifying
 	@Transactional(readOnly = false)
-	@Query("delete from ClientUser clientUser where clientUser.clientName=:clientName")
-	void deleteClientByClientName(@Param("clientName") String clientName);
+	@Query("delete from ClientUser clientUser where clientUser.firstName=:firstName")
+	void deleteClientByClientName(@Param("firstName") String firstName);
 	
 	@Query("SELECT clientUser from ClientUser clientUser")
 	@Transactional(readOnly = true)
