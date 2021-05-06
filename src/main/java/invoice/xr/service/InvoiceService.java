@@ -132,10 +132,6 @@ public class InvoiceService {
 		return invoiceDao.findAllInvoices();
 	}
 	
-	public JasperPrint exportPdfFile() throws SQLException, JRException, IOException {
-		return reportDao.exportPdfFile();
-	}
-
 	public InvoiceModel getInvoice(String invoiceNo) {
 		List<InvoiceModel> invoiceList = invoiceDao.findAllInvoices();
 		for(InvoiceModel invoice : invoiceList) {

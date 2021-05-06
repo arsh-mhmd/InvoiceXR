@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import invoice.xr.model.ClientUser;
 import invoice.xr.model.InvoiceUserInfo;
 import invoice.xr.service.InvoiceUserInfoService;
 
@@ -45,9 +48,29 @@ public class InvoiceUserController {
 	 * @param id
 	 * @return
 	 */
-	@PutMapping("/updateInvoiceUser/{id}")
-	public InvoiceUserInfo updateUser(@RequestBody InvoiceUserInfo userRecord, @PathVariable Integer id) {
-		return userService.updateUser(id,userRecord);
+	@PostMapping("/updateProfile")
+	public InvoiceUserInfo updateUser(@RequestBody InvoiceUserInfo userRecord) {
+		return userService.updateUser(userRecord);
+	}
+	
+	@GetMapping("/getUserProfile")
+	public ResponseEntity<InvoiceUserInfo> findUserByUserName(@RequestParam(value = "userName") String userName) {
+		InvoiceUserInfo user = userService.getUserInfoByUserName(userName);
+		return new ResponseEntity<InvoiceUserInfo>(user, HttpStatus.OK);
+	}
+	
+	@GetMapping("/verifyUser")
+	public Boolean verifyUser(@RequestParam(value = "userName") String userName,
+			@RequestParam(value = "enpassword") String enpassword,
+			@RequestParam(value = "rawpassword") String rawpassword) {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		String p = bCryptPasswordEncoder.encode(rawpassword);
+		if(bCryptPasswordEncoder.matches(rawpassword, p)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	/**
