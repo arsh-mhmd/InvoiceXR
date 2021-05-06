@@ -59,6 +59,20 @@ public class InvoiceUserController {
 		return new ResponseEntity<InvoiceUserInfo>(user, HttpStatus.OK);
 	}
 	
+	@GetMapping("/verifyUser")
+	public Boolean verifyUser(@RequestParam(value = "userName") String userName,
+			@RequestParam(value = "enpassword") String enpassword,
+			@RequestParam(value = "rawpassword") String rawpassword) {
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		String p = bCryptPasswordEncoder.encode(rawpassword);
+		if(bCryptPasswordEncoder.matches(rawpassword, p)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	/**
 	 * updateUserPassword is used to update manager password
 	 * 
