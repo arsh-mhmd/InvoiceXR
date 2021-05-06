@@ -48,13 +48,13 @@ public class InvoiceUserController {
 	 * @param id
 	 * @return
 	 */
-	@PutMapping("/updateProfile")
-	public InvoiceUserInfo updateUser(@RequestBody InvoiceUserInfo userRecord, @RequestParam(value = "id") Integer id) {
-		return userService.updateUser(id,userRecord);
+	@PostMapping("/updateProfile")
+	public InvoiceUserInfo updateUser(@RequestBody InvoiceUserInfo userRecord) {
+		return userService.updateUser(userRecord);
 	}
 	
 	@GetMapping("/getUserProfile")
-	public ResponseEntity<InvoiceUserInfo> findUserById(@RequestParam(value = "userName") String userName) {
+	public ResponseEntity<InvoiceUserInfo> findUserByUserName(@RequestParam(value = "userName") String userName) {
 		InvoiceUserInfo user = userService.getUserInfoByUserName(userName);
 		return new ResponseEntity<InvoiceUserInfo>(user, HttpStatus.OK);
 	}
