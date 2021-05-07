@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import invoice.xr.dao.RegisterDao;
 import invoice.xr.model.ClientUser;
+import invoice.xr.model.InvoiceUserInfo;
 
 
 /**
@@ -26,7 +28,6 @@ public class RegistrationService {
 	public ClientUser registerNewClient(ClientUser userDetails) {
 		userDetails.setClientId(generateClientId());
 		registerDao.save(userDetails);
-		//System.out.print(responseClientUser.getFirstName());
 		return userDetails;
 	}
 	
@@ -39,8 +40,8 @@ public class RegistrationService {
 		registerDao.deleteById(id);
 	}
 	
-	public void removeClientByClientName(String firstName) {
-		registerDao.deleteClientByClientName(firstName);
+	public void removeClientByClientId(String clientId) {
+		registerDao.deleteClientByClientId(clientId);
 	}
 	
 	public List<ClientUser> getAllClientDetail() {
@@ -53,6 +54,11 @@ public class RegistrationService {
 	
 	public ClientUser findClientById(String clientId) {
 		return registerDao.findClientById(clientId);
+	}
+
+	public ClientUser updateClient(ClientUser userRecord) {
+		registerDao.save(userRecord);
+		return userRecord;
 	}
 	
 }

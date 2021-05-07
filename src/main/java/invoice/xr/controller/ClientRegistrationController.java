@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 import invoice.xr.model.ClientUser;
+import invoice.xr.model.InvoiceUserInfo;
 import invoice.xr.service.RegistrationService;
 import invoice.xr.model.Status;
 
@@ -53,6 +54,18 @@ public class ClientRegistrationController {
 		ClientUser clientUser = registrationService.findClientById(clientId);
 		return new ResponseEntity<>(clientUser, HttpStatus.OK);
 	}
+	
+	/**
+	 * updateUser is used to update invoice user details
+	 * 
+	 * @param userRecord
+	 * @param id
+	 * @return
+	 */
+	@PostMapping("/updateClient")
+	public ClientUser updateUser(@RequestBody ClientUser userRecord) {
+		return registrationService.updateClient(userRecord);
+	}
 
 	@PostMapping("/registerClient")
 	public ResponseEntity<ClientUser> registerClient(@RequestBody ClientUser userDetails) {
@@ -73,73 +86,9 @@ public class ClientRegistrationController {
 	}
 
 	@DeleteMapping("/removeClient")
-	public String removeClientByClientName(@RequestParam(value = "firstName") String firstName) {
-		registrationService.removeClientByClientName(firstName);
+	public String removeClientByClientId(@RequestParam(value = "clientId") String clientId) {
+		registrationService.removeClientByClientId(clientId);
 		return "Delete by name called";
 	}
 
-//	@GetMapping("/showAllInvoiceUser")
-//	public ResponseEntity<List<InvoiceUser>> getAllInvoiceUser() {
-//		List<InvoiceUser> invoiceUsersList = registrationService.getAllInvoiceUserDetail();
-//		return new ResponseEntity<>(invoiceUsersList, HttpStatus.OK);
-//	}
-//
-//	@GetMapping("/findInvoiceUser")
-//	public ResponseEntity<List<InvoiceUser>> findInvoiceUserByName(@RequestParam(value = "fullName") String fullName) {
-//		List<InvoiceUser> invoiceUsersList = registrationService.findInvoiceUserByName(fullName);
-//		return new ResponseEntity<>(invoiceUsersList, HttpStatus.OK);
-//	}
-//
-//	@PostMapping("/registerInvoiceUser")
-//	public ResponseEntity<Status> registerInvoiceUser(@RequestBody InvoiceUser invoiceUserDetails) {
-//		try {
-//
-//			if (registrationService.checkInvoiceUser(invoiceUserDetails)) {
-//				registrationService.registerNewInvoiceUser(invoiceUserDetails);
-//				return new ResponseEntity<>(Status.SUCCESS, HttpStatus.CREATED);
-//			} else {
-//				return new ResponseEntity<>(Status.USER_ALREADY_EXISTS, HttpStatus.CREATED);
-//			}
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
-//	
-//	@PostMapping("/invoiceUser/login")
-//    public Status invoiceUserLogin(@RequestBody InvoiceUser loginUser) {
-//        List<InvoiceUser> users = registrationService.getAllInvoiceUserDetail();
-//        for (InvoiceUser other : users) {
-//            if (other.equals(loginUser)) {
-//            	loginUser.setLoggedIn(true);
-//                registrationService.registerNewInvoiceUser(loginUser);
-//                return Status.SUCCESS;
-//            }
-//        }
-//        return Status.FAILURE;
-//    }
-//
-//	@PostMapping("/invoiceUser/logout")
-//    public Status invoiceUserLogout(@RequestBody InvoiceUser logoutUser) {
-//        List<InvoiceUser> users = registrationService.getAllInvoiceUserDetail();
-//        for (InvoiceUser other : users) {
-//            if (other.equals(logoutUser)) {
-//            	logoutUser.setLoggedIn(false);
-//            	registrationService.registerNewInvoiceUser(logoutUser);
-//                return Status.SUCCESS;
-//            }
-//        }
-//        return Status.FAILURE;
-//    }
-//	
-//	@DeleteMapping("/removeInvoiceUser/{id}")
-//	public String removeInvoiceUserById(@PathVariable("id") Integer id) {
-//		registrationService.removeInvoiceUserById(id);
-//		return "Delete by id called";
-//	}
-//
-//	@DeleteMapping("/removeInvoiceUser")
-//	public String removeInvoiceUserByName(@RequestParam(value = "fullName") String fullName) {
-//		registrationService.removeInvoiceUserByName(fullName);
-//		return "Delete by name called";
-//	}
 }

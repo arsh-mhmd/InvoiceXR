@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 
 import invoice.xr.model.AddressModel;
+import invoice.xr.model.ClientUser;
 import invoice.xr.model.InvoiceModel;
 import invoice.xr.model.OrderEntryModel;
 import lombok.NonNull;
@@ -70,7 +71,7 @@ public class InvoiceService {
 	public void createNewInvoice(InvoiceModel invoiceDetails) {
 		invoiceDetails.setInvoiceNo(generateInvoiceNo(invoiceDetails.getInvoiceDate()));
 		invoiceDetails.setId(generateInvoiceId());
-		invoiceDetails.setClientId("clientId");
+		invoiceDetails.setClientId(invoiceDetails.getClientId());
 		setOrderEntryDetails(invoiceDetails.getAddress().getEntries(), invoiceDetails.getInvoiceNo());
 		setAddressDetails(invoiceDetails.getAddress(), invoiceDetails.getInvoiceNo());
 		invoiceDao.save(invoiceDetails);
@@ -133,13 +134,7 @@ public class InvoiceService {
 	}
 	
 	public InvoiceModel getInvoice(String invoiceNo) {
-		List<InvoiceModel> invoiceList = invoiceDao.findAllInvoices();
-		for(InvoiceModel invoice : invoiceList) {
-			if(invoice.getInvoiceNo().equalsIgnoreCase(invoiceNo)) {
-				return invoice;
-			}
-		}
-		return null;
+		return invoiceDao.getInvoiceByInvoiceNo(invoiceNo);
 	}
 	
 	public File generateInvoiceFor(InvoiceModel invoice) throws IOException {
@@ -213,5 +208,16 @@ public class InvoiceService {
 
         return JasperCompileManager.compileReport(jasperDesign);
     }
+
+	public InvoiceModel getInvoiceById(String id) {
+		return invoiceDao.getInvoiceById(id);
+	}
+	
+	public InvoiceModel updateInvoice(InvoiceModel invoiceDetails) {
+		setOrderEntryDetails(invoiceDetails.getAddress().getEntries(), invoiceDetails.getInvoiceNo());
+		setAddressDetails(invoiceDetails.getAddress(), invoiceDetails.getInvoiceNo());
+		invoiceDao.save(invoiceDetails);
+		return invoiceDetails;
+	}
 
 }
