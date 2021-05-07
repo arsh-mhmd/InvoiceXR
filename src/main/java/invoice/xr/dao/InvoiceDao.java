@@ -25,20 +25,20 @@ public interface InvoiceDao extends Repository<InvoiceModel, Integer> {
 	@Transactional(readOnly = true)
 	InvoiceModel getAddressId(String id);
 	
+	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.id IN (:id)")
+	@Transactional(readOnly = true)
+	InvoiceModel getInvoiceById(String id);
+	
+	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.invoiceNo IN (:invoiceNo)")
+	@Transactional(readOnly = true)
+	InvoiceModel getInvoiceByInvoiceNo(String invoiceNo);
+	
 	@Query("SELECT invoiceModel from InvoiceModel invoiceModel")
 	@Transactional(readOnly = true)
 	List<InvoiceModel> findAllInvoices();
 	
-//	DELETE FROM `invoicexr`.`invoice_model` WHERE (`id` = '03276b95-d5b9-4b14-8534-3b1814ef5bb0');
-//	DELETE FROM `invoicexr`.`address_model` WHERE (`id` = '46');
-//
-//	DELETE FROM `invoicexr`.`order_entry_model` WHERE (`id` = '47');
-//	DELETE FROM `invoicexr`.`order_entry_model` WHERE (`id` = '48');
-//	DELETE FROM `invoicexr`.`order_entry_model` WHERE (`id` = '49');
-//	DELETE FROM `invoicexr`.`order_entry_model` WHERE (`id` = '51')
-
 	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.status=:status")
-    @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
 	List<InvoiceModel> getReportByStatus(String status);
 
 	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.clientId=:ClientId")
@@ -48,4 +48,6 @@ public interface InvoiceDao extends Repository<InvoiceModel, Integer> {
 	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.invoiceDate<:date")
 	@Transactional(readOnly = true)
 	List<InvoiceModel>  getReportByDate(Date date);
+
+	
 }

@@ -30,8 +30,8 @@ public interface RegisterDao extends Repository<ClientUser, Integer> {
 	
 	@Modifying
 	@Transactional(readOnly = false)
-	@Query("delete from ClientUser clientUser where clientUser.firstName=:firstName")
-	void deleteClientByClientName(@Param("firstName") String firstName);
+	@Query("delete from ClientUser clientUser where clientUser.clientId=:clientId")
+	void deleteClientByClientId(@Param("clientId") String clientId);
 	
 	@Query("SELECT clientUser from ClientUser clientUser")
 	@Transactional(readOnly = true)
