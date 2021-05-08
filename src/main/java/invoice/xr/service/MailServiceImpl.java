@@ -87,7 +87,5 @@ public class MailServiceImpl implements MailService {
         } catch (MessagingException e) {
             logger.error("mail send failed", e);
         }
-
-
     }
 }

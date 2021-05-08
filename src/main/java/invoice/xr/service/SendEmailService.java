@@ -1,14 +1,15 @@
 package invoice.xr.service;
 import invoice.xr.dao.RegisterDao;
-import invoice.xr.model.AddressModel;
-import invoice.xr.model.ClientUser;
-import invoice.xr.model.InvoiceModel;
-import invoice.xr.model.OrderEntryModel;
+import invoice.xr.dao.TimerDao;
+import invoice.xr.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Address;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ public class SendEmailService {
     @Autowired
     RegisterDao registerDao;
     @Autowired MailService mailService;
+    @Autowired
+    TimerDao timerDao;
 
     public String getInvoiceData(InvoiceModel invoiceModel){
         AddressModel addressModel =invoiceModel.getAddress();
@@ -49,5 +52,55 @@ public class SendEmailService {
         String Email = clientUser.getEmail();
         String content = this.getInvoiceData(invoice);
         mailService.sendSimpleMail(Email,"Please check your invoice. This invoice is from InvoiceXr inc.",content);
+    }
+
+    public TimerModel setTimerConfig(TimerModel timerModel){
+        if (timerModel.getType()==0){
+            timerModel.setDueDay(30);
+        }
+        timerModel.setSent(0);
+        timerDao.save(timerModel);
+        return timerModel;
+    }
+
+    public void sendMonthlyEmail() throws ParseException {
+        List<TimerModel> timerTasks = timerDao.findByType(0);
+        for(int i =0; i<timerTasks.size();i++){
+            TimerModel timerTask = timerTasks.get(i);
+
+            Date today = new Date();
+            if(timerTask.getLastSentDay()==null || (today.getTime()-timerTask.getLastSentDay().getTime())/(1000 * 60 * 60 * 24) > 30){
+                // send email
+                sendInvoiceNow(timerTask.getInvoiceId());
+                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                String dateString = format.format(today);
+                Date date = format.parse(dateString);
+                timerTask.setLastSentDay((java.sql.Date) date);
+                timerDao.save(timerTask);
+            }
+        }
+    }
+
+    public void sendDueEmail() throws ParseException {
+        List<TimerModel> timerTasks = timerDao.findByType(1);
+        for(int i =0; i<timerTasks.size();i++){
+            TimerModel timerTask = timerTasks.get(i);
+            InvoiceModel invoiceModel = invoiceService.getInvoice(timerTask.getInvoiceId());
+            Date today = new Date();
+            if (timerTask.getSent()==0){
+                if ((invoiceModel.getDueDate().getTime()-today.getTime())/(1000 * 60 * 60 * 24)<timerTask.getDueDay()){
+                    sendInvoiceNow(timerTask.getInvoiceId());
+                    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                    String dateString = format.format(today);
+                    Date date = format.parse(dateString);
+
+                    timerTask.setLastSentDay((java.sql.Date) date);
+                    timerTask.setSent(1);
+                    timerDao.save(timerTask);
+                }
+            }
+
+        }
+
     }
 }
