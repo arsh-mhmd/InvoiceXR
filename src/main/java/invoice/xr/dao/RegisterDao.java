@@ -23,7 +23,11 @@ public interface RegisterDao extends Repository<ClientUser, Integer> {
 	@Query("SELECT clientUser from ClientUser clientUser where clientUser.clientId IN (:clientId)")
 	@Transactional(readOnly = true)
 	ClientUser findClientById(@Param("clientId") String clientId);
-	
+
+	@Query("SELECT clientUser from ClientUser clientUser where clientUser.id IN (:id)")
+	@Transactional(readOnly = true)
+	ClientUser findClientByMainId(@Param("id") int id);
+
 	void save(ClientUser clientUser);
 	
 	void deleteById(Integer id);
