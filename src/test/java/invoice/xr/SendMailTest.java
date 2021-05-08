@@ -24,7 +24,7 @@ public class SendMailTest {
     @Test
     public void sendmail () {
         //mailService.sendSimpleMail("juewolf@bupt.edu.cn", "subject：hello, this is normal email", "content：the first email");
-        sendEmailService.sendInvoiceNow("IN-20210506223733");
+        sendEmailService.sendInvoiceNow("IN-20210504194424");
     }
 
     /**

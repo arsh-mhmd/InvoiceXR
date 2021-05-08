@@ -43,8 +43,7 @@ public class SendEmailService {
     public void sendInvoiceNow(String number){
         final InvoiceModel invoice = invoiceService.getInvoice(number);
         String clientId = invoice.getClientId();
-        int id = Integer.parseInt(clientId);
-        final ClientUser clientUser = registerDao.findClientByMainId(id);
+        final ClientUser clientUser = registerDao.findClientById(clientId);
         String Email = clientUser.getEmail();
         String content = this.getInvoiceData(invoice);
         //mailService.sendSimpleMail(Email,"2",content);
