@@ -68,8 +68,8 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    @Override
-    public void sendAttachmentsMail(String to, String subject, String content, String filePath) {
+	@Override
+    public void sendAttachmentsMail(String to, String subject, String content, File file, String fileName) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -77,10 +77,7 @@ public class MailServiceImpl implements MailService {
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(content, true);
-
-            FileSystemResource file = new FileSystemResource(new File(filePath));
-            String fileName = filePath.substring(filePath.lastIndexOf("/"));
-            helper.addAttachment(fileName, file);
+            helper.addAttachment(fileName+".pdf", file);
             mailSender.send(message);
             //log
             logger.info("mail send success");

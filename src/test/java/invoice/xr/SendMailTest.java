@@ -3,6 +3,9 @@ package invoice.xr;
 
 import invoice.xr.service.MailService;
 import invoice.xr.service.SendEmailService;
+
+import java.io.IOException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +23,10 @@ public class SendMailTest {
     private SendEmailService sendEmailService;
     /**
      * test normal email
+     * @throws IOException 
      */
     @Test
-    public void sendmail () {
+    public void sendmail () throws IOException {
         //mailService.sendSimpleMail("juewolf@bupt.edu.cn", "subject：hello, this is normal email", "content：the first email");
         sendEmailService.sendInvoiceNow("IN-20210412213814");
     }

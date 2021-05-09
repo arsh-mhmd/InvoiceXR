@@ -4,6 +4,9 @@ package invoice.xr.controller;
 import invoice.xr.model.TimerModel;
 import invoice.xr.service.MailService;
 import invoice.xr.service.SendEmailService;
+
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +23,7 @@ public class SendMailController {
     SendEmailService sendEmailService;
 
     @GetMapping("/sendInvoiceNow")
-    public ResponseEntity<String> SendInvoiceNow(@RequestParam(value = "invoiceId") String invoiceId){
+    public ResponseEntity<String> SendInvoiceNow(@RequestParam(value = "invoiceId") String invoiceId) throws IOException {
         System.out.println(invoiceId);
         sendEmailService.sendInvoiceNow(invoiceId);
         return new ResponseEntity<>(null, HttpStatus.CREATED);
@@ -34,4 +37,6 @@ public class SendMailController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    
 }

@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
@@ -194,8 +196,14 @@ public class InvoiceService {
         parameters.put("withDue",  invoice.getDueAmount()!=null? invoice.getDueAmount() + invoice.getAddress().getTotalPrice() + invoice.getAddress().getGrandTotal() : invoice.getAddress().getTotalPrice() + invoice.getAddress().getGrandTotal());
         parameters.put("grandTotal",  invoice.getAddress().getGrandTotal() );
         parameters.put("finalPrice",  (invoice.getAddress().getTotalPrice() + invoice.getAddress().getGrandTotal()));
-        
+        long diff = getDifferenceDays(invoice.getDueDate(), invoice.getInvoiceDate());
+        parameters.put("notes", "1. Payment due in "+diff+" days");
         return parameters;
+    }
+    
+    public static long getDifferenceDays(Date d1, Date d2) {
+        long diff = d2.getTime() - d1.getTime();
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
     // Load invoice JRXML template
