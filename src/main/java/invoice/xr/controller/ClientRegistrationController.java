@@ -56,6 +56,18 @@ public class ClientRegistrationController {
 		return new ResponseEntity<>(clientUsersList, HttpStatus.OK);
 	}
 	
+	@GetMapping("/findClientByCompanyId")
+	public ResponseEntity<List<ClientUser>> findClientByCompanyId(@RequestParam(value = "companyId") String companyId) {
+		List<ClientUser> clientUsersList = registrationService.findClientByCompanyId(companyId);
+		return new ResponseEntity<>(clientUsersList, HttpStatus.OK);
+	}
+	
+	@GetMapping("/findCompanyByCompanyId")
+	public ResponseEntity<CompanyModel> findCompanyByCompanyId(@RequestParam(value = "companyId") String companyId) {
+		CompanyModel companyDetails = registrationService.findCompanyByCompanyId(companyId);
+		return new ResponseEntity<>(companyDetails, HttpStatus.OK);
+	}
+	
 	@GetMapping("/selectClient")
 	public ResponseEntity<ClientUser> findClientById(@RequestParam(value = "clientId") String clientId) {
 		ClientUser clientUser = registrationService.findClientById(clientId);

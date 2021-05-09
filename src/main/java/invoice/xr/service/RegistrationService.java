@@ -75,5 +75,13 @@ public class RegistrationService {
 	public List<CompanyModel> getAllCompaniesList() {
 		return companyDao.findAllCompanies();
 	}
+
+	public List<ClientUser> findClientByCompanyId(String companyId) {
+		return registerDao.findClientByCompanyId(companyId);
+	}
+
+	public CompanyModel findCompanyByCompanyId(String companyId) {
+		return companyDao.findCompanyById(companyId);
+	}
 	
 }
