@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import invoice.xr.dao.CompanyDao;
 import invoice.xr.dao.RegisterDao;
 import invoice.xr.model.ClientUser;
+import invoice.xr.model.CompanyModel;
 import invoice.xr.model.InvoiceUserInfo;
 
 
@@ -25,13 +27,16 @@ public class RegistrationService {
 	@Autowired
 	RegisterDao registerDao;
 	
+	@Autowired
+	CompanyDao companyDao;
+	
 	public ClientUser registerNewClient(ClientUser userDetails) {
-		userDetails.setClientId(generateClientId());
+		userDetails.setClientId(generateId());
 		registerDao.save(userDetails);
 		return userDetails;
 	}
 	
-	private String generateClientId() {
+	private String generateId() {
 		String uniqueID = UUID.randomUUID().toString();
 		return uniqueID;
 	}
@@ -59,6 +64,16 @@ public class RegistrationService {
 	public ClientUser updateClient(ClientUser userRecord) {
 		registerDao.save(userRecord);
 		return userRecord;
+	}
+
+	public CompanyModel registerNewCompany(CompanyModel companyDetails) {
+		companyDetails.setCompanyId(generateId());
+		companyDao.save(companyDetails);
+		return companyDetails;
+	}
+
+	public List<CompanyModel> getAllCompaniesList() {
+		return companyDao.findAllCompanies();
 	}
 	
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 import invoice.xr.model.ClientUser;
+import invoice.xr.model.CompanyModel;
 import invoice.xr.model.InvoiceUserInfo;
 import invoice.xr.service.RegistrationService;
 import invoice.xr.model.Status;
@@ -41,6 +42,12 @@ public class ClientRegistrationController {
 	public ResponseEntity<List<ClientUser>> getAllClient() {
 		List<ClientUser> clientUsersList = registrationService.getAllClientDetail();
 		return new ResponseEntity<>(clientUsersList, HttpStatus.OK);
+	}
+	
+	@GetMapping("/showAllCompanies")
+	public ResponseEntity<List<CompanyModel>> getAllCompanies() {
+		List<CompanyModel> companyList = registrationService.getAllCompaniesList();
+		return new ResponseEntity<>(companyList, HttpStatus.OK);
 	}
 
 	@GetMapping("/findClient")
@@ -74,6 +81,18 @@ public class ClientRegistrationController {
 
 			ClientUser responseClientUser = registrationService.registerNewClient(userDetails);
 			return new ResponseEntity<>(responseClientUser, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PostMapping("/registerCompany")
+	public ResponseEntity<CompanyModel> registerCompany(@RequestBody CompanyModel companyDetails) {
+
+		try {
+
+			CompanyModel companyModel = registrationService.registerNewCompany(companyDetails);
+			return new ResponseEntity<>(companyModel, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

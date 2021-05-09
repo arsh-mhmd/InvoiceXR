@@ -31,8 +31,11 @@ public class ClientUser {
 	@Column(name="lastName")
 	private String lastName;
 	
-	@Column(name="industry")
-	private String industry;
+	@Column(name="companyId")
+	private String companyId;
+	
+	@Column(name="companyName")
+	private String companyName;
 	
 	@Column(name="email")
 	private String email;
@@ -63,12 +66,20 @@ public class ClientUser {
 		this.id = id;
 	}
 
-	public String getIndustry() {
-		return industry;
+	public String getCompanyId() {
+		return companyId;
 	}
 
-	public void setIndustry(String industry) {
-		this.industry = industry;
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}
 
 	public String getClientId() {
