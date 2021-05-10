@@ -228,4 +228,20 @@ public class InvoiceService {
 		return invoiceDetails;
 	}
 
+	public void updateInvoicePayment(Double paid, String invoiceNo) {
+		InvoiceModel invoice = getInvoice(invoiceNo);
+		Double total = invoice.getDueAmount() + invoice.getAddress().getTotalPrice() + invoice.getAddress().getGrandTotal();
+		if(total == paid) {
+			invoice.setPaidAmount(paid);
+			invoice.setStatus("PAID");
+			invoice.setDueAmount(Double.parseDouble("0"));
+		} 
+		else if((total > paid)) {
+			invoice.setPaidAmount(paid);
+			invoice.setStatus("PARTLY PAID");
+			invoice.setDueAmount(total-paid);
+		}
+		updateInvoice(invoice);
+	}
+
 }
