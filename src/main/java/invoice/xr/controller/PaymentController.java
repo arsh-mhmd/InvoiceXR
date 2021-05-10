@@ -1,10 +1,21 @@
 package invoice.xr.controller;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.h2.util.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +23,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
@@ -40,12 +50,13 @@ public class PaymentController {
 	private PaypalService paypalService;
 	
 	@GetMapping("pay")
-	public ResponseEntity<ApiResponse> pay(HttpServletRequest request, HttpServletResponse response) throws IOException{
+	public ResponseEntity<ApiResponse> pay(HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam(name = "total") Double total) throws IOException{
 		String cancelUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_CANCEL_URL;
 		String successUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_SUCCESS_URL;
 		try {
 			Payment payment = paypalService.createPayment(
-					4.00, 
+					total, 
 					"GBP", 
 					PaypalPaymentMethod.paypal, 
 					PaypalPaymentIntent.sale,
@@ -64,22 +75,21 @@ public class PaymentController {
 	}
 
 	@GetMapping(PAYPAL_CANCEL_URL)
-	public String cancelPay(){
-		return "cancel";
+	public ModelAndView cancelPay(){
+		return new ModelAndView("redirect:"+"http://localhost:8080/cancel");
 	}
 
 	
 	@GetMapping(PAYPAL_SUCCESS_URL)
-	public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
+	public ModelAndView successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) throws IOException{
 		try {
 			Payment payment = paypalService.executePayment(paymentId, payerId);
 			if(payment.getState().equals("approved")){
-				return "success";
+				return new ModelAndView("redirect:"+"http://localhost:8080/success");
 			}
 		} catch (PayPalRESTException e) {
 			log.error(e.getMessage());
 		}
-		return "redirect:/";
+		return new ModelAndView("redirect:"+"http://localhost:8080/success");
 	}
-	
 }
