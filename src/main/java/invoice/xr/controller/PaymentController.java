@@ -39,7 +39,7 @@ public class PaymentController {
 	@Autowired
 	private PaypalService paypalService;
 	
-	@PostMapping("pay")
+	@GetMapping("pay")
 	public ResponseEntity<ApiResponse> pay(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		String cancelUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_CANCEL_URL;
 		String successUrl = URLUtils.getBaseURl(request) + "/" + PAYPAL_SUCCESS_URL;
