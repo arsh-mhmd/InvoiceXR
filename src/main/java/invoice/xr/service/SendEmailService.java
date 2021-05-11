@@ -29,10 +29,10 @@ public class SendEmailService {
 
 	public String getInvoiceData(InvoiceModel invoiceModel) {
 		AddressModel addressModel = invoiceModel.getAddress();
-		String header = "Hi " + addressModel.getShippingFirstName() + " " + addressModel.getShippingLastName()
-				+ "," + "\n\nThis is an invoice from InvoiceXR Inc.\n\n";
+		String header = "<html><body>Hi " + addressModel.getShippingFirstName() + " " + addressModel.getShippingLastName()
+				+ "," + "\n\n<h4>This is an invoice from InvoiceXR Inc.</h4>\n\n";
 		String billing = "Bill to         :  " + addressModel.getBillingFirstName() + addressModel.getBillingLastName()
-				+ " \nAddress     :  " + addressModel.getBillingStreetName()
+				+ " \n<p>Address     :  " + addressModel.getBillingStreetName()
 				+ " " + addressModel.getBillingTown() + " " + addressModel.getBillingCountry() + " \nPost Code :  "
 				+ addressModel.getBillingPostalCode() + "\n\n";
 		String shipping = "Ship to       : " + addressModel.getShippingFirstName() + addressModel.getShippingLastName()
@@ -48,8 +48,11 @@ public class SendEmailService {
 				: invoiceModel.getAddress().getTotalPrice() + invoiceModel.getAddress().getGrandTotal();
 		String money = "Sale Tax: " + addressModel.getSalesTax() + " Salex Tax Price: " + addressModel.getGrandTotal()
 				+ " Total Price: " + invoiceModel.getAddress().getTotalPrice() + " With Due: " + withDue;
-		String end = "\n\nBest Wishes,\nInvoiceXr Inc.";
-		return header + billing + shipping + date + money + end;
+		String beforeEnd = "\n\n</p><h2><b>Best Wishes,\nInvoiceXr Inc.</b></h2>";
+		String end = "<p>You can make the payment by clicking on this <a href=\"http://localhost:8081/InvoiceXR/pay?"
+				+ "total="+withDue+"&invoiceNo="+invoiceModel.getInvoiceNo()+"\">link</a> !\r\n"
+				+ "</p></body></html>";
+		return header + billing + shipping + date + money + beforeEnd + end;
 	}
 
 	public void sendInvoiceNow(String number) throws IOException {
