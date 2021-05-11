@@ -33,6 +33,11 @@ public interface CompanyDao extends Repository<CompanyModel, Integer> {
 	@Query("SELECT companyModel from CompanyModel companyModel")
 	@Transactional(readOnly = true)
 	List<CompanyModel> findAllCompanies();
+
+	@Modifying
+	@Transactional(readOnly = false)
+	@Query("delete from CompanyModel companyModel where companyModel.id=:id")
+	void removeCompanyById(Integer id);
 	
 	
 	  

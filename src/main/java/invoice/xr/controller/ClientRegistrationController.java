@@ -121,5 +121,11 @@ public class ClientRegistrationController {
 		registrationService.removeClientByClientId(clientId);
 		return "Delete by name called";
 	}
+	
+	@DeleteMapping("/removeCompany")
+	public String removeCompanyById(@RequestParam(value = "id") Integer id) {
+		registrationService.removeCompanyById(id);
+		return "Delete by name called";
+	}
 
 }

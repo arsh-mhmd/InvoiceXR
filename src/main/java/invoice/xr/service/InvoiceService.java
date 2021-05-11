@@ -234,12 +234,12 @@ public class InvoiceService {
 		if(total == paid) {
 			invoice.setPaidAmount(paid);
 			invoice.setStatus("PAID");
-			invoice.setDueAmount(Double.parseDouble("0"));
+			invoice.setDueAmount(total - paid);
 		} 
 		else if((total > paid)) {
 			invoice.setPaidAmount(paid);
 			invoice.setStatus("PARTLY PAID");
-			invoice.setDueAmount(total-paid);
+			invoice.setDueAmount(total - paid);
 		}
 		updateInvoice(invoice);
 	}

@@ -83,5 +83,9 @@ public class RegistrationService {
 	public CompanyModel findCompanyByCompanyId(String companyId) {
 		return companyDao.findCompanyById(companyId);
 	}
+
+	public void removeCompanyById(Integer id) {
+		companyDao.removeCompanyById(id);
+	}
 	
 }
