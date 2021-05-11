@@ -1,4 +1,5 @@
 package invoice.xr.service;
+
 import invoice.xr.dao.RegisterDao;
 import invoice.xr.dao.TimerDao;
 import invoice.xr.model.*;
@@ -20,39 +21,42 @@ import java.util.List;
  */
 @Service
 public class SendEmailService {
-    @Autowired InvoiceService invoiceService;
-    @Autowired
-    RegisterDao registerDao;
-    @Autowired MailService mailService;
-    @Autowired
-    TimerDao timerDao;
+	@Autowired
+	InvoiceService invoiceService;
+	@Autowired
+	RegisterDao registerDao;
+	@Autowired
+	MailService mailService;
+	@Autowired
+	TimerDao timerDao;
 
 	public String getInvoiceData(InvoiceModel invoiceModel) {
 		AddressModel addressModel = invoiceModel.getAddress();
-		String header = "<html><body>Hi " + addressModel.getShippingFirstName() + " " + addressModel.getShippingLastName()
-				+ "," + "\n\n<h4>This is an invoice from InvoiceXR Inc.</h4>\n\n";
-		String billing = "Bill to         :  " + addressModel.getBillingFirstName() + addressModel.getBillingLastName()
-				+ " \n<p>Address     :  " + addressModel.getBillingStreetName()
-				+ " " + addressModel.getBillingTown() + " " + addressModel.getBillingCountry() + " \nPost Code :  "
-				+ addressModel.getBillingPostalCode() + "\n\n";
-		String shipping = "Ship to       : " + addressModel.getShippingFirstName() + addressModel.getShippingLastName()
-				+ " \nAddress    :  "
-				+ addressModel.getShippingStreetName() + " " + addressModel.getShippingTown() + " "
-				+ addressModel.getShippingCountry() + " \nPost Code : " + addressModel.getShippingPostalCode() + "\n\n";
-		String date = "Invoice Date: " + invoiceModel.getInvoiceDate() + "    \nDue Date: " + invoiceModel.getDueDate()
-				+ "    Remaining Due: " + invoiceModel.getDueAmount() + "\n";
-
+		String header = "<html><body>Hi " + addressModel.getShippingFirstName() + " "
+				+ addressModel.getShippingLastName() + "," + "<p>This is a billing notice that your invoice no. <b>"
+				+ invoiceModel.getInvoiceNo() + "</b> which was generated on <b>" + invoiceModel.getInvoiceDate()
+				+ "</b> from InvoiceXR Inc.</p>";
+		String date = "<p style=\"background-color:powderblue;width:15%;\"><b>Invoice Date: " + invoiceModel.getInvoiceDate()
+				+ "    </b></p><p style=\"background-color:tomato;width:15%;\"><b>Due Date: " + invoiceModel.getDueDate() + "    </b></p>";
+		String table = "<table border=\"3\" style=\"width:40%;border-collapse:collapse;\">\r\n" + "  <tr>\r\n"
+				+ "    <th>Billing Details</th>\r\n" + "    <td><p>" + addressModel.getBillingFirstName() + " "
+				+ addressModel.getBillingLastName() + " <br>" + addressModel.getBillingStreetName() + "<br>"
+				+ addressModel.getBillingTown() + ", " + addressModel.getShippingCountry() + " <br>Post Code : "
+				+ addressModel.getBillingPostalCode() + "</p></td> \r\n" + "  </tr>\r\n" + "  <tr>\r\n"
+				+ "    <th>Shipping Details</th>\r\n" + "    <td><p>" + addressModel.getShippingFirstName() + " "
+				+ addressModel.getShippingLastName() + " <br>" + addressModel.getShippingStreetName() + "<br>"
+				+ addressModel.getShippingTown() + ", " + addressModel.getShippingCountry() + " <br>Post Code : "
+				+ addressModel.getShippingPostalCode() + "</p></td> \r\n" + "  </tr>\r\n" + "</table>";
+		String attach = "<p>Please find your in invoice in the attachment.</hp>";
 		double withDue = invoiceModel.getDueAmount() != null
 				? invoiceModel.getDueAmount() + invoiceModel.getAddress().getTotalPrice()
 						+ invoiceModel.getAddress().getGrandTotal()
 				: invoiceModel.getAddress().getTotalPrice() + invoiceModel.getAddress().getGrandTotal();
-		String money = "Sale Tax: " + addressModel.getSalesTax() + " Salex Tax Price: " + addressModel.getGrandTotal()
-				+ " Total Price: " + invoiceModel.getAddress().getTotalPrice() + " With Due: " + withDue;
-		String beforeEnd = "\n\n</p><h2><b>Best Wishes,\nInvoiceXr Inc.</b></h2>";
-		String end = "<p>You can make the payment by clicking on this <a href=\"http://localhost:8081/InvoiceXR/pay?"
-				+ "total="+withDue+"&invoiceNo="+invoiceModel.getInvoiceNo()+"\">link</a> !\r\n"
-				+ "</p></body></html>";
-		return header + billing + shipping + date + money + beforeEnd + end;
+		String beforeEnd = "<h4><b>Best Wishes,</h4><h4>InvoiceXr Inc.</b></h4>";
+		String end = "<h4>You can make payment by clicking on this <a href=\"http://localhost:8081/InvoiceXR/pay?"
+				+ "total=" + withDue + "&invoiceNo=" + invoiceModel.getInvoiceNo() + "\">link</a> !"
+				+ "</h4></body></html>";
+		return header + table + date + end + attach + beforeEnd;
 	}
 
 	public void sendInvoiceNow(String number) throws IOException {
@@ -61,58 +65,61 @@ public class SendEmailService {
 		final ClientUser clientUser = registerDao.findClientById(clientId);
 		String Email = clientUser.getEmail();
 		String content = this.getInvoiceData(invoice);
-        final File invoicePdf = invoiceService.generateInvoiceFor(invoice);
+		final File invoicePdf = invoiceService.generateInvoiceFor(invoice);
 //		mailService.sendSimpleMail(Email, "Please check your invoice. This invoice is from InvoiceXr inc.", content);
-		mailService.sendAttachmentsMail(Email, "Please check your invoice. This invoice is from InvoiceXr inc.", content, invoicePdf, number);
+		mailService.sendAttachmentsMail(Email, "Please check your invoice. This invoice is from InvoiceXr inc.",
+				content, invoicePdf, number);
 	}
 
-    public TimerModel setTimerConfig(TimerModel timerModel){
-        if (timerModel.getType()==0){
-            timerModel.setDueDay(30);
-        }
-        timerModel.setSent(0);
-        timerDao.save(timerModel);
-        return timerModel;
-    }
+	public TimerModel setTimerConfig(TimerModel timerModel) {
+		if (timerModel.getType() == 0) {
+			timerModel.setDueDay(30);
+		}
+		timerModel.setSent(0);
+		timerDao.save(timerModel);
+		return timerModel;
+	}
 
-    public void sendMonthlyEmail() throws ParseException, IOException {
-        List<TimerModel> timerTasks = timerDao.findByType(0);
-        for(int i =0; i<timerTasks.size();i++){
-            TimerModel timerTask = timerTasks.get(i);
+	public void sendMonthlyEmail() throws ParseException, IOException {
+		List<TimerModel> timerTasks = timerDao.findByType(0);
+		for (int i = 0; i < timerTasks.size(); i++) {
+			TimerModel timerTask = timerTasks.get(i);
 
-            Date today = new Date();
-            if(timerTask.getLastSentDay()==null || (today.getTime()-timerTask.getLastSentDay().getTime())/(1000 * 60 * 60 * 24) > 30){
-                // send email
-                sendInvoiceNow(timerTask.getInvoiceId());
-                SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                String dateString = format.format(today);
-                Date date = format.parse(dateString);
-                timerTask.setLastSentDay((java.sql.Date) date);
-                timerDao.save(timerTask);
-            }
-        }
-    }
+			Date today = new Date();
+			if (timerTask.getLastSentDay() == null
+					|| (today.getTime() - timerTask.getLastSentDay().getTime()) / (1000 * 60 * 60 * 24) > 30) {
+				// send email
+				sendInvoiceNow(timerTask.getInvoiceId());
+				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+				String dateString = format.format(today);
+				Date date = format.parse(dateString);
+				timerTask.setLastSentDay((java.sql.Date) date);
+				timerDao.save(timerTask);
+			}
+		}
+	}
 
-    public void sendDueEmail() throws ParseException, IOException {
-        List<TimerModel> timerTasks = timerDao.findByType(1);
-        for(int i =0; i<timerTasks.size();i++){
-            TimerModel timerTask = timerTasks.get(i);
-            InvoiceModel invoiceModel = invoiceService.getInvoice(timerTask.getInvoiceId());
-            Date today = new Date();
-            if (timerTask.getSent()==0){
-                if ((invoiceModel.getDueDate().getTime()-today.getTime())/(1000 * 60 * 60 * 24)<timerTask.getDueDay()){
-                    sendInvoiceNow(timerTask.getInvoiceId());
-                    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-                    String dateString = format.format(today);
-                    Date date = format.parse(dateString);
+	public void sendDueEmail() throws ParseException, IOException {
+		List<TimerModel> timerTasks = timerDao.findByType(1);
+		for (int i = 0; i < timerTasks.size(); i++) {
+			TimerModel timerTask = timerTasks.get(i);
+			InvoiceModel invoiceModel = invoiceService.getInvoice(timerTask.getInvoiceId());
+			Date today = new Date();
+			if (timerTask.getSent() == 0) {
+				if ((invoiceModel.getDueDate().getTime() - today.getTime()) / (1000 * 60 * 60 * 24) < timerTask
+						.getDueDay()) {
+					sendInvoiceNow(timerTask.getInvoiceId());
+					SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+					String dateString = format.format(today);
+					Date date = format.parse(dateString);
 
-                    timerTask.setLastSentDay((java.sql.Date) date);
-                    timerTask.setSent(1);
-                    timerDao.save(timerTask);
-                }
-            }
+					timerTask.setLastSentDay((java.sql.Date) date);
+					timerTask.setSent(1);
+					timerDao.save(timerTask);
+				}
+			}
 
-        }
+		}
 
-    }
+	}
 }

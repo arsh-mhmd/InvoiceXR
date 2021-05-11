@@ -84,6 +84,7 @@ public class MailServiceImpl implements MailService {
         	
         	message.setFrom(from);
         	message.setRecipients(Message.RecipientType.TO, to);
+        	message.setSubject(subject);
         	
         	Multipart multipart = new MimeMultipart();
         	BodyPart attachmentBodyPart = new MimeBodyPart();
