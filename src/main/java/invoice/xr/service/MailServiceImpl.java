@@ -24,7 +24,7 @@ public class MailServiceImpl implements MailService {
     private JavaMailSender mailSender;
 
 
-    @Value("935730017@qq.com")
+    @Value("InvoiceXR Inc.<935730017@qq.com>")
     private String from;
 
 
@@ -54,7 +54,7 @@ public class MailServiceImpl implements MailService {
 
             messageHelper.setFrom(from);
 
-            messageHelper.setTo(subject);
+            messageHelper.setTo(to);
 
             message.setSubject(subject);
 

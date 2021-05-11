@@ -25,12 +25,23 @@ public class SendMailTest {
      * test normal email
      * @throws IOException 
      */
-    @Test
-    public void sendmail () throws IOException {
-        //mailService.sendSimpleMail("juewolf@bupt.edu.cn", "subject：hello, this is normal email", "content：the first email");
-        sendEmailService.sendInvoiceNow("IN-20210412213814");
-    }
+//    @Test
+//    public void sendmail () throws IOException {
+//        mailService.sendHtmlMail("juewolf@bupt.edu.cn", "subject：hello, this is normal email", "content：the first email");
+//        //sendEmailService.sendInvoiceNow("IN-20210412213814");
+//    }
 
+    @Test
+    public void sendHtmlMail() throws IOException{
+        String sc = "<html>\n" +
+                "<body>\n" +
+                "<p id=\"mailUuid\" style=\"display: none\">" + "bodys" + "</p>\n" +
+                "<p id=\"uuid\" style=\"\">" + "bodys2" + "</p>\n" +
+                "<p>CDE</p>\n" +
+                "</body>\n" +
+                "</html>";
+        mailService.sendHtmlMail("juewolf@bupt.edu.cn", "subject：hello, this is html email", sc);
+    }
     /**
      * test file email
      */
