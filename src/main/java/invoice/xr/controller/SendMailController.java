@@ -39,6 +39,12 @@ public class SendMailController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/sendQuoteNow")
+    public ResponseEntity<String> sendQuoteNow(@RequestParam(value = "quoteNo") String quoteNo) throws IOException {
+        System.out.println(quoteNo);
+        sendEmailService.sendQuoteNow(quoteNo);
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
+    }
     
     
 }

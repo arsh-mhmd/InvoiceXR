@@ -29,6 +29,8 @@ public class SendEmailService {
 	MailService mailService;
 	@Autowired
 	TimerDao timerDao;
+	@Autowired
+	QuoteService quoteService;
 
 	public String getInvoiceData(InvoiceModel invoiceModel) {
 		AddressModel addressModel = invoiceModel.getAddress();
@@ -122,5 +124,26 @@ public class SendEmailService {
 
 		}
 
+	}
+
+	public void sendQuoteNow(String quoteNo) {
+		final QuoteModel quote = quoteService.getQuote(quoteNo);
+		String clientId = quote.getClientId();
+		final ClientUser clientUser = registerDao.findClientById(clientId);
+		String Email = clientUser.getEmail();
+		String content = this.getQuoteData(quote);
+		mailService.sendHtmlMail(Email, "Please check your quote. This quote is from InvoiceXr inc.", content);
+	}
+	
+	public String getQuoteData(QuoteModel quote) {
+		String header = "<html><body>Hi " + quote.getClientName() + "," + "<p>This is a quote that your quote no. <b>"
+				+ quote.getQuoteNo() + "</b> which was generated on <b>" + quote.getQuoteDate()
+				+ "</b> from InvoiceXR Inc.</p>";
+		
+		String beforeEnd = "<h4><b>Best Wishes,</h4><h4>InvoiceXr Inc.</b></h4>";
+		String end = "<p>You can verify quote by clicking on this <a href=\"http://localhost:8080/clientQuote?"
+				+ "quoteNo=" + quote.getQuoteNo() + "\">link</a> !"
+				+ "</p></body></html>";
+		return header + end + beforeEnd;
 	}
 }
