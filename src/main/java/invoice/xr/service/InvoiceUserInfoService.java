@@ -45,6 +45,9 @@ public class InvoiceUserInfoService {
 		userInfo.setPassword(new BCryptPasswordEncoder().encode(userRecord.getPassword()));
 		userInfo.setRole(userRecord.getRole());
 		userInfo.setEnabled(userRecord.getEnabled());
+		userInfo.setFirstName(userRecord.getFirstName());
+		userInfo.setLastName(userRecord.getLastName());
+		userInfo.setEmail(userRecord.getEmail());
 		return invoiceUserInfoDao.save(userInfo);
 	}
 

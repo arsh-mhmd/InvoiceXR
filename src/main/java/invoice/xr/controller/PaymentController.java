@@ -52,8 +52,8 @@ public class PaymentController {
 			Payment payment = paypalService.createPayment(
 					total, 
 					"GBP", 
-					PaypalPaymentMethod.paypal, 
-					PaypalPaymentIntent.sale,
+					PaypalPaymentMethod.credit_card, 
+					PaypalPaymentIntent.order,
 					invoiceNo, 
 					cancelUrl, 
 					successUrl);

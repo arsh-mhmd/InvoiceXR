@@ -32,6 +32,7 @@ public class RegistrationService {
 	
 	public ClientUser registerNewClient(ClientUser userDetails) {
 		userDetails.setClientId(generateId());
+		userDetails.setDueAmount(Double.parseDouble("0"));
 		registerDao.save(userDetails);
 		return userDetails;
 	}

@@ -33,6 +33,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     	http
     	.authorizeRequests()
         .antMatchers("/pay/**").permitAll()
+        .antMatchers("/approveQuote/**").permitAll()
+        .antMatchers("/acceptQuote/**").permitAll()
+        .antMatchers("/declineQuote/**").permitAll()
         .anyRequest().authenticated();
     }
 }

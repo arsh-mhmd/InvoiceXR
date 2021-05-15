@@ -74,6 +74,9 @@ public class InvoiceModel {
 	
 	@Column(name = "createdBy")
 	private String createdBy;
+	
+	@Column(name = "createdAt")
+	private String createdAt;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id")
@@ -205,5 +208,13 @@ public class InvoiceModel {
 
 	public void setAddress(AddressModel address) {
 		this.address = address;
+	}
+	
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
 	}
 }
