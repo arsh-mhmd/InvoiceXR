@@ -25,6 +25,15 @@ public class InvoiceUserInfo implements Serializable {
 	@Column(name = "id", length = 25)
 	private Integer id;
 
+	@Column(name = "firstName", length = 50)
+	private String firstName;
+	
+	@Column(name = "lastName", length = 50)
+	private String lastName;
+	
+	@Column(name = "email", length = 50)
+	private String email;
+	
 	@Column(name = "username", length = 50)
 	private String userName;
 
@@ -81,6 +90,34 @@ public class InvoiceUserInfo implements Serializable {
 
 	public void setEnabled(short enabled) {
 		this.enabled = enabled;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override

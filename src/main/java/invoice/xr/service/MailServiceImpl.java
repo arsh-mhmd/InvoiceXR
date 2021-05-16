@@ -10,8 +10,17 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
 import java.io.File;
 /**
  * @author Jue Wang
@@ -24,7 +33,7 @@ public class MailServiceImpl implements MailService {
     private JavaMailSender mailSender;
 
 
-    @Value("935730017@qq.com")
+    @Value("InvoiceXR Inc.<935730017@qq.com>")
     private String from;
 
 
@@ -54,7 +63,7 @@ public class MailServiceImpl implements MailService {
 
             messageHelper.setFrom(from);
 
-            messageHelper.setTo(subject);
+            messageHelper.setTo(to);
 
             message.setSubject(subject);
 
@@ -68,26 +77,37 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    @Override
-    public void sendAttachmentsMail(String to, String subject, String content, String filePath) {
+	@Override
+    public void sendAttachmentsMail(String to, String subject, String content, File file, String fileName) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom(from);
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(content, true);
-
-            FileSystemResource file = new FileSystemResource(new File(filePath));
-            String fileName = filePath.substring(filePath.lastIndexOf("/"));
-            helper.addAttachment(fileName, file);
+        	
+        	message.setFrom(from);
+        	message.setRecipients(Message.RecipientType.TO, to);
+        	message.setSubject(subject);
+        	
+        	Multipart multipart = new MimeMultipart();
+        	BodyPart attachmentBodyPart = new MimeBodyPart();
+        	DataSource source = new FileDataSource(file);
+        	attachmentBodyPart.setDataHandler(new DataHandler(source));
+        	attachmentBodyPart.setFileName(fileName+".pdf");
+        	multipart.addBodyPart(attachmentBodyPart);
+        	
+        	BodyPart htmlBodyPart = new MimeBodyPart();
+        	htmlBodyPart.setContent(content, "text/html");
+        	multipart.addBodyPart(htmlBodyPart);
+        	message.setContent(multipart);
+//            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+//            helper.setFrom(from);
+//            helper.setTo(to);
+//            helper.setSubject(subject);
+//            helper.setText(content, true);
+//            helper.addAttachment(fileName+".pdf", file);
             mailSender.send(message);
             //log
             logger.info("mail send success");
         } catch (MessagingException e) {
             logger.error("mail send failed", e);
         }
-
-
     }
 }

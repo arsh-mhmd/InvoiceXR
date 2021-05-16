@@ -45,9 +45,12 @@ public class InvoiceModel {
 	@Column(name = "clientId")
 	private String clientId;
 
+	@Column(name = "companyId")
+	private String companyId;
+	
 	@Column(name = "companyName")
 	private String companyName;
-
+	
 	@Column(name = "companyStreetName")
 	private String companyStreetName;
 
@@ -71,47 +74,20 @@ public class InvoiceModel {
 	
 	@Column(name = "createdBy")
 	private String createdBy;
+	
+	@Column(name = "createdAt")
+	private String createdAt;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id")
 	AddressModel address;
 
-
-	/*
-	 * public InvoiceModel(String userId, List<OrderEntryModel> entries) {
-	 * this.userId = userId; //this.address = address; this.entries = entries; }
-	 */
-
-	public String getInvoiceNo() {
-		return invoiceNo;
-	}
-
-	public void setInvoiceNo(String invoiceNo) {
-		this.invoiceNo = invoiceNo;
-	}
-
-	public Date getInvoiceDate() {
-		return invoiceDate;
-	}
-
-	public void setInvoiceDate(Date invoiceDate) {
-		this.invoiceDate = invoiceDate;
-	}
-
-	public Date getDueDate() {
-		return dueDate;
-	}
-
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
+	public String getCompanyId() {
+		return companyId;
 	}
 
 	public String getCompanyName() {
 		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
 	}
 
 	public String getCompanyStreetName() {
@@ -144,6 +120,38 @@ public class InvoiceModel {
 
 	public void setCompanyCountry(String companyCountry) {
 		this.companyCountry = companyCountry;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+
+	public String getInvoiceNo() {
+		return invoiceNo;
+	}
+
+	public void setInvoiceNo(String invoiceNo) {
+		this.invoiceNo = invoiceNo;
+	}
+
+	public Date getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(Date invoiceDate) {
+		this.invoiceDate = invoiceDate;
+	}
+
+	public Date getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
 	}
 
 	public Double getDueAmount() {
@@ -200,5 +208,13 @@ public class InvoiceModel {
 
 	public void setAddress(AddressModel address) {
 		this.address = address;
+	}
+	
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
 	}
 }

@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import invoice.xr.model.ClientUser;
 import invoice.xr.model.InvoiceModel;
+import invoice.xr.model.QuoteModel;
 import invoice.xr.service.InvoiceService;
+import invoice.xr.service.QuoteService;
 
 
 /**
@@ -28,15 +30,15 @@ import invoice.xr.service.InvoiceService;
  *
  */
 @RestController
-public class InvoiceController {
+public class QuoteController {
 
 	@Autowired
-	InvoiceService invoiceService;
+	QuoteService quoteService;
 	
-	@PostMapping("/createInvoice")
-	public ResponseEntity<InvoiceModel> createInvoice(@RequestBody InvoiceModel invoiceDetails) {
+	@PostMapping("/createQuote")
+	public ResponseEntity<QuoteModel> createQuote(@RequestBody QuoteModel quote) {
 
-		invoiceService.createNewInvoice(invoiceDetails);
+		quoteService.createNewQuote(quote);
 		return new ResponseEntity<>(null, HttpStatus.CREATED);
 //		try {
 //			
@@ -45,21 +47,17 @@ public class InvoiceController {
 //		}
 	}
 	
-	@GetMapping("/getAllInvoices")
-	public ResponseEntity<List<InvoiceModel>> getAllInvoices() {
-		List<InvoiceModel> invoiceList = invoiceService.getAllInvoices();
-		return new ResponseEntity<>(invoiceList, HttpStatus.OK);
+	@GetMapping("/getAllQuotes")
+	public ResponseEntity<List<QuoteModel>> getAllQuotes() {
+		List<QuoteModel> quotesList = quoteService.getAllQuotes();
+		return new ResponseEntity<>(quotesList, HttpStatus.OK);
 	}
 	
-	@GetMapping("/getInvoice")
-    public ResponseEntity<InvoiceModel> getInvoice(@RequestParam(name = "id") String id) {
-        InvoiceModel invoice = invoiceService.getInvoiceById(id);
-        return new ResponseEntity<>(invoice, HttpStatus.OK);
-    }
-	
-	@PostMapping("/updateInvoice")
-	public ResponseEntity<InvoiceModel> updateInvoice(@RequestBody InvoiceModel invoiceDetails) {
-		InvoiceModel invoice = invoiceService.updateInvoice(invoiceDetails);
-		return new ResponseEntity<>(invoice, HttpStatus.CREATED);
+	@PostMapping("/convertQuote")
+	public ResponseEntity<QuoteModel> convertQuote(@RequestBody QuoteModel quote) {
+
+		quoteService.createInvoiceFromQuote(quote);
+		return new ResponseEntity<>(null, HttpStatus.CREATED);
 	}
+	
 }

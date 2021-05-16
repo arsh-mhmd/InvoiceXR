@@ -39,12 +39,15 @@ public class InvoiceUserInfoService {
 		return invoiceUserInfoDao.save(userInfo);
 	}
 
-	public InvoiceUserInfo updateUser(Integer id, InvoiceUserInfo userRecord) {
-		InvoiceUserInfo userInfo = invoiceUserInfoDao.findById(id);
+	public InvoiceUserInfo updateUser(InvoiceUserInfo userRecord) {
+		InvoiceUserInfo userInfo = invoiceUserInfoDao.findByUserName(userRecord.getUserName());
 		userInfo.setUserName(userRecord.getUserName());
-		userInfo.setPassword(userRecord.getPassword());
+		userInfo.setPassword(new BCryptPasswordEncoder().encode(userRecord.getPassword()));
 		userInfo.setRole(userRecord.getRole());
 		userInfo.setEnabled(userRecord.getEnabled());
+		userInfo.setFirstName(userRecord.getFirstName());
+		userInfo.setLastName(userRecord.getLastName());
+		userInfo.setEmail(userRecord.getEmail());
 		return invoiceUserInfoDao.save(userInfo);
 	}
 
