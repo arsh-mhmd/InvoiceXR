@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
+import invoice.xr.model.PaymentRecordModel;
+import invoice.xr.service.PaymentRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +34,8 @@ public class InvoiceController {
 
 	@Autowired
 	InvoiceService invoiceService;
-	
+	@Autowired
+	PaymentRecordService paymentRecordService;
 	@PostMapping("/createInvoice")
 	public ResponseEntity<InvoiceModel> createInvoice(@RequestBody InvoiceModel invoiceDetails) {
 
@@ -61,5 +64,10 @@ public class InvoiceController {
 	public ResponseEntity<InvoiceModel> updateInvoice(@RequestBody InvoiceModel invoiceDetails) {
 		InvoiceModel invoice = invoiceService.updateInvoice(invoiceDetails);
 		return new ResponseEntity<>(invoice, HttpStatus.CREATED);
+	}
+	@GetMapping("/getPaymentRecord")
+	public ResponseEntity<List<PaymentRecordModel>> getAllPaymentRecord(){
+		List<PaymentRecordModel> paymentRecordModels = paymentRecordService.getAllPaymentList();
+		return new ResponseEntity<>(paymentRecordModels,HttpStatus.OK);
 	}
 }
