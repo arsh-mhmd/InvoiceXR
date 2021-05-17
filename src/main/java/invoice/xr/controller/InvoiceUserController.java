@@ -65,7 +65,10 @@ public class InvoiceUserController {
 			@RequestParam(value = "rawpassword") String rawpassword) {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		String p = bCryptPasswordEncoder.encode(rawpassword);
-		if(bCryptPasswordEncoder.matches(rawpassword, p)) {
+		InvoiceUserInfo user = userService.getUserInfoByUserName(userName);
+		System.out.println(user.getPassword());
+		System.out.println(p);
+		if(bCryptPasswordEncoder.matches(rawpassword, user.getPassword())) {
 			return true;
 		}
 		else {

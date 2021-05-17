@@ -42,7 +42,7 @@ public class InvoiceUserInfoService {
 	public InvoiceUserInfo updateUser(InvoiceUserInfo userRecord) {
 		InvoiceUserInfo userInfo = invoiceUserInfoDao.findByUserName(userRecord.getUserName());
 		userInfo.setUserName(userRecord.getUserName());
-		userInfo.setPassword(new BCryptPasswordEncoder().encode(userRecord.getPassword()));
+//		userInfo.setPassword(new BCryptPasswordEncoder().encode(userRecord.getPassword()));
 		userInfo.setRole(userRecord.getRole());
 		userInfo.setEnabled(userRecord.getEnabled());
 		userInfo.setFirstName(userRecord.getFirstName());
