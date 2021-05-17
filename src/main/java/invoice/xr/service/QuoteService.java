@@ -206,126 +206,21 @@ public class QuoteService {
 		return orderEntryList;
 	}
 	
-	private void updateInvoiceDate(InvoiceModel invoice) {
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		LocalDateTime now = LocalDateTime.now();
-		invoice.setInvoiceDate(Date.valueOf(dtf.format(now)));
-	}
-	
 	private void updateInvoiceTime(InvoiceModel invoice) {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		invoice.setCreatedAt(dtf.format(now));
 	}
-	
-//	public File generateInvoiceFor(InvoiceModel invoice) throws IOException {
-//
-//		File pdfFile = File.createTempFile("Invoice", ".pdf");
-//
-//		logger.info(String.format("Invoice pdf path : %s", pdfFile.getAbsolutePath()));
-//
-//		try (FileOutputStream pos = new FileOutputStream(pdfFile)) {
-//			// Load invoice JRXML template.
-//			final JasperReport report = loadTemplate();
-//
-//			// Fill parameters map.
-//			final Map<String, Object> parameters = parameters(invoice);
-//
-//			// Create an empty datasource.
-//			final JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(
-//					Collections.singletonList("Invoice"));
-//
-//			// Render the invoice as a PDF file.
-//			JasperReportsUtils.renderAsPdf(report, parameters, dataSource, pos);
-//
-//			// return file.
-//			return pdfFile;
-//		} catch (final Exception e) {
-//			logger.error(String.format("An error occured during PDF creation: %s", e));
-//			throw new RuntimeException(e);
-//		}
-//	}
-//
-//	// Fill template order params
-//	private Map<String, Object> parameters(InvoiceModel invoice) {
-//		final Map<String, Object> parameters = new HashMap<>();
-//		parameters.put("logo", getClass().getResourceAsStream(logo_path));
-//		parameters.put("invoice", invoice);
-//		parameters.put("invoiceNo", invoice.getInvoiceNo());
-//		parameters.put("billingFirstName", invoice.getAddress().getBillingFirstName());
-//		parameters.put("billingLastName", invoice.getAddress().getBillingLastName());
-//		parameters.put("billingStreetName", invoice.getAddress().getBillingStreetName());
-//		parameters.put("billingTown", invoice.getAddress().getBillingTown());
-//		parameters.put("billingCountry", invoice.getAddress().getBillingCountry());
-//		parameters.put("billingPostalCode", invoice.getAddress().getBillingPostalCode());
-//		parameters.put("shippingFirstName", invoice.getAddress().getShippingFirstName());
-//		parameters.put("shippingLastName", invoice.getAddress().getShippingLastName());
-//		parameters.put("shippingStreetName", invoice.getAddress().getShippingStreetName());
-//		parameters.put("shippingTown", invoice.getAddress().getShippingTown());
-//		parameters.put("shippingCountry", invoice.getAddress().getShippingCountry());
-//		parameters.put("shippingPostalCode", invoice.getAddress().getShippingPostalCode());
-//		parameters.put("entriesSize", invoice.getAddress().getEntriesSize());
-//		parameters.put("tax", invoice.getAddress().getSalesTax());
-//		parameters.put("invoiceDate", invoice.getInvoiceDate());
-//		parameters.put("dueDate", invoice.getDueDate());
-//		parameters.put("dueAmount", invoice.getDueAmount());
-//		parameters.put("withDue",
-//				invoice.getDueAmount() != null
-//						? invoice.getDueAmount() + invoice.getAddress().getTotalPrice()
-//								+ invoice.getAddress().getGrandTotal()
-//						: invoice.getAddress().getTotalPrice() + invoice.getAddress().getGrandTotal());
-//		parameters.put("grandTotal", invoice.getAddress().getGrandTotal());
-//		parameters.put("finalPrice", (invoice.getAddress().getTotalPrice() + invoice.getAddress().getGrandTotal()));
-//		long diff = getDifferenceDays(invoice.getInvoiceDate(), invoice.getDueDate());
-//		parameters.put("notes",
-//				" 1. Remit payment within " + diff + " days of date of invoice. \n"
-//						+ " 2. Please make payment through Paypal.\n"
-//						+ " 3. All deposits and payments are subject to terms and\n"
-//						+ "     conditions in the client service agreement.");
-//		return parameters;
-//	}
-//
-//	public static long getDifferenceDays(Date d1, Date d2) {
-//		long diff = d2.getTime() - d1.getTime();
-//		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-//	}
-//
-//	// Load invoice JRXML template
-//	private JasperReport loadTemplate() throws JRException {
-//
-//		logger.info(String.format("Invoice template path : %s", invoice_template));
-//
-//		final InputStream reportInputStream = getClass().getResourceAsStream(invoice_template);
-//		final JasperDesign jasperDesign = JRXmlLoader.load(reportInputStream);
-//
-//		return JasperCompileManager.compileReport(jasperDesign);
-//	}
-//
-//	public InvoiceModel getInvoiceById(String id) {
-//		return invoiceDao.getInvoiceById(id);
-//	}
-//
-//	public InvoiceModel updateInvoice(InvoiceModel invoiceDetails) {
-//		setOrderEntryDetails(invoiceDetails.getAddress().getEntries(), invoiceDetails.getInvoiceNo());
-//		setAddressDetails(invoiceDetails.getAddress(), invoiceDetails.getInvoiceNo());
-//		invoiceDao.save(invoiceDetails);
-//		return invoiceDetails;
-//	}
-//
-//	public void updateInvoicePayment(Double paid, String invoiceNo) {
-//		InvoiceModel invoice = getInvoice(invoiceNo);
-//		Double total = invoice.getDueAmount() + invoice.getAddress().getTotalPrice()
-//				+ invoice.getAddress().getGrandTotal();
-//		if (total == paid) {
-//			invoice.setPaidAmount(paid);
-//			invoice.setStatus("PAID");
-//			invoice.setDueAmount(total - paid);
-//		} else if ((total > paid)) {
-//			invoice.setPaidAmount(paid);
-//			invoice.setStatus("PARTLY PAID");
-//			invoice.setDueAmount(total - paid);
-//		}
-//		updateInvoice(invoice);
-//	}
+
+	public void removeQuote(String id) {
+		quoteEntryDao.deleteEntriesByQuoteEntryId(id);
+		quoteDao.deleteQuoteById(id);
+		
+	}
+
+	public QuoteModel updateQuote(QuoteModel quote) {
+		quoteDao.save(quote);
+		return null;
+	}
 
 }

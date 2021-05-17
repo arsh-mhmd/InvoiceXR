@@ -18,6 +18,6 @@ public interface QuoteEntryDao extends Repository<QuoteEntryModel, Integer> {
 	@Modifying
 	@Transactional(readOnly = false)
 	@Query("delete from QuoteEntryModel where quote_entry_id=:quote_entry_id")
-	void deleteEntriesByQuoteEntryId(Integer quote_entry_id);
+	void deleteEntriesByQuoteEntryId(String quote_entry_id);
 	
 }

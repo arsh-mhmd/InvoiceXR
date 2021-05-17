@@ -10,6 +10,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,6 +54,13 @@ public class QuoteController {
 		return new ResponseEntity<>(quotesList, HttpStatus.OK);
 	}
 	
+	
+	@GetMapping("/getQuote")
+	public ResponseEntity<QuoteModel> getQuote(@RequestParam(value = "quoteNo") String quoteNo) {
+		QuoteModel quote = quoteService.getQuote(quoteNo);
+		return new ResponseEntity<>(quote, HttpStatus.OK);
+	}
+	
 	@PostMapping("/convertQuote")
 	public ResponseEntity<QuoteModel> convertQuote(@RequestBody QuoteModel quote) {
 
@@ -60,4 +68,22 @@ public class QuoteController {
 		return new ResponseEntity<>(null, HttpStatus.CREATED);
 	}
 	
+	/**
+	 * 
+	 * Delete Quote method is used to delete quote from the table
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping("/removeQuoteById")
+	public String removeQuoteById(@RequestParam(value = "id") String id) {
+		quoteService.removeQuote(id);
+		return "Invoice User Deleted";
+	}
+	
+	@PostMapping("/updateQuote")
+	public ResponseEntity<QuoteModel> updateQuote(@RequestBody QuoteModel quote) {
+		QuoteModel quoteList = quoteService.updateQuote(quote);
+		return new ResponseEntity<>(quoteList, HttpStatus.CREATED);
+	}
 }
