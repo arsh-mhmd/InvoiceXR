@@ -45,9 +45,36 @@ public interface InvoiceDao extends Repository<InvoiceModel, Integer> {
 	@Transactional(readOnly = true)
 	List<InvoiceModel>  getReportByClientId(String ClientId);
 
-	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.invoiceDate<:date")
+	@Query("SELECT invoiceModel from InvoiceModel invoiceModel where invoiceModel.invoiceDate<:date and invoiceModel.invoiceDate>:sDate")
 	@Transactional(readOnly = true)
-	List<InvoiceModel>  getReportByDate(Date date);
+	List<InvoiceModel>  getReportByDate(Date date,Date sDate);
 
-	
+	@Query("SELECT sum(dueAmount+paidAmount) from InvoiceModel invoiceModel")
+	@Transactional(readOnly = true)
+	double getAmountMoney();
+
+	@Query("SELECT sum(paidAmount) from InvoiceModel invoiceModel")
+	@Transactional(readOnly = true)
+	double getPaidMoney();
+
+	@Query("SELECT sum(dueAmount) from InvoiceModel invoiceModel")
+	@Transactional(readOnly = true)
+	double getUnpaidMoney();
+
+	@Query("SELECT count(*) from InvoiceModel invoiceModel")
+	@Transactional(readOnly = true)
+	int getAmountInvoices();
+
+	@Query("SELECT count(*) from InvoiceModel invoiceModel where invoiceModel.status='unPaid'" )
+	@Transactional(readOnly = true)
+	int getUnpaidInvoices();
+
+	@Query("SELECT count(*) from InvoiceModel invoiceModel where invoiceModel.status='halfPaid'")
+	@Transactional(readOnly = true)
+	int getHalfPaidInvoices();
+
+	@Query("SELECT count(*) from InvoiceModel invoiceModel where invoiceModel.status='paid'")
+	@Transactional(readOnly = true)
+	int getPaidInvoices();
+
 }

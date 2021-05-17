@@ -132,12 +132,12 @@ public class OwnerModuleController {
 
 
 	/**
-	 *  getInvoiceByDate is used for owner to create report based on Date
+	 *  getInvoiceByDate is used for owner to create report based on Date and sDate
 	 *
 	 */
 	@GetMapping("/createReportByDate")
-	public ResponseEntity<List<InvoiceModel>> getInvoiceByDate(@RequestParam(value = "date") Date date){
-		List<InvoiceModel> report= reportService.createReportByDate(date);
+	public ResponseEntity<List<InvoiceModel>> getInvoiceByDate(@RequestParam(value = "date") Date date,@RequestParam(value="sDate") Date sDate){
+		List<InvoiceModel> report= reportService.createReportByDate(date,sDate);
 		if (report == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

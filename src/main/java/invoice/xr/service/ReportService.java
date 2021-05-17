@@ -13,8 +13,8 @@ public class ReportService {
     @Autowired
     private InvoiceDao invoiceDao;
 
-    public List<InvoiceModel> createReportByDate(Date date){
-        return invoiceDao.getReportByDate(date);
+    public List<InvoiceModel> createReportByDate(Date date,Date sDate){
+        return invoiceDao.getReportByDate(date,sDate);
     }
 
     public List<InvoiceModel> createReportByStatus(String status){
