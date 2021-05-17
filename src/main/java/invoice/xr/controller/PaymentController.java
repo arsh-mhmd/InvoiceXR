@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import invoice.xr.service.PaymentRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class PaymentController {
 	
 	@Autowired
 	private InvoiceService invoiceService;
-	
+
 	@GetMapping("pay")
 	public ResponseEntity<ApiResponse> pay(HttpServletRequest request, HttpServletResponse response, 
 			@RequestParam(name = "total") Double total, @RequestParam(name = "invoiceNo") String invoiceNo) throws IOException{

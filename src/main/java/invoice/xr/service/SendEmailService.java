@@ -73,7 +73,38 @@ public class SendEmailService {
 		mailService.sendAttachmentsMail(Email, "Please check your invoice. This invoice is from InvoiceXr inc.",
 				content, invoicePdf, number);
 	}
+	public void sendRecipe(InvoiceModel invoiceModel,PaymentRecordModel paymentRecordModel){
+		final ClientUser clientUser = registerDao.findClientById(paymentRecordModel.getClientId());
 
+		String Email = clientUser.getEmail();
+		String content = this.getRecipeData(paymentRecordModel,invoiceModel);
+		mailService.sendHtmlMail(Email,"Please check your recipe. This invoice is from InvoiceXr inc.",content);
+	}
+
+	public String getRecipeData(PaymentRecordModel paymentRecordModel,InvoiceModel invoiceModel){
+		AddressModel addressModel = invoiceModel.getAddress();
+		String header = "<html><body>Hi " + addressModel.getShippingFirstName() + " "
+				+ addressModel.getShippingLastName() + "," + "<p>This is a recipe of your invoice no. <b>"
+				+ invoiceModel.getInvoiceNo() + "</b> which was generated on <b>" + invoiceModel.getInvoiceDate()
+				+ "</b> from InvoiceXR Inc.</p>";
+		String date = "<p style=\"background-color:powderblue;width:15%;\"><b>Invoice Date: " + invoiceModel.getInvoiceDate()
+				+ "    </b></p><p style=\"background-color:tomato;width:15%;\"><b>Due Date: " + invoiceModel.getDueDate() + "    </b></p>";
+
+		String table = "<table border=\"3\" style=\"width:40%;border-collapse:collapse;\">\r\n" + "  <tr>\r\n"
+				+ "    <th>Billing Details</th>\r\n" + "    <td><p>" + addressModel.getBillingFirstName() + " "
+				+ addressModel.getBillingLastName() + " <br>" + addressModel.getBillingStreetName() + "<br>"
+				+ addressModel.getBillingTown() + ", " + addressModel.getShippingCountry() + " <br>Post Code : "
+				+ addressModel.getBillingPostalCode() + "</p></td> \r\n" + "  </tr>\r\n" + "  <tr>\r\n"
+				+ "    <th>Shipping Details</th>\r\n" + "    <td><p>" + addressModel.getShippingFirstName() + " "
+				+ addressModel.getShippingLastName() + " <br>" + addressModel.getShippingStreetName() + "<br>"
+				+ addressModel.getShippingTown() + ", " + addressModel.getShippingCountry() + " <br>Post Code : "
+				+ addressModel.getShippingPostalCode() + "</p></td> \r\n" + "  </tr>\r\n" + "</table>";
+		String recipe = "<h4>You have paid"+paymentRecordModel.getPaid()+" GBP</h4>";
+		String thanks = invoiceModel.getDueAmount()!=0 ? "<h4>Thanks for you payment, You have "+invoiceModel.getDueAmount()+"GBP left to pay</h4>" :
+				"<h4>Thanks for you payment, you have paid all the money</h4>";
+		String end = "<h4><b>Best Wishes,</h4><h4>InvoiceXr Inc.</b></h4>";
+		return  header+table+date+recipe+thanks+end;
+	}
 	public TimerModel setTimerConfig(TimerModel timerModel) {
 		if (timerModel.getType() == 0) {
 			timerModel.setDueDay(30);

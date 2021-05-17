@@ -68,7 +68,8 @@ public class InvoiceService {
 	@Autowired
 	private RegisterDao registerDao;
 
-
+	@Autowired
+	private PaymentRecordService paymentRecordService;
 	private static Logger logger = LogManager.getLogger(InvoiceService.class);
 
 	@Value("${invoice.logo.path}")
@@ -389,6 +390,8 @@ public class InvoiceService {
 			invoice.setDueAmount(total - paid);
 		}
 		updateInvoice(invoice);
+		// track money record
+		paymentRecordService.addPaymentRecord(invoice,paid,total - paid);
 	}
 
 }
