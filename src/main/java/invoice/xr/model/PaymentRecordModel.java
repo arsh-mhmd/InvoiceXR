@@ -25,9 +25,9 @@ public class PaymentRecordModel {
     @Column(name="paid")
     private Double paid;
 
-    @CreatedDate
+
     @Column(name="createdDate")
-    private Date createdDate;
+    private String createdDate;
 
     public PaymentRecordModel() {
     }
@@ -66,11 +66,11 @@ public class PaymentRecordModel {
     }
 
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 }

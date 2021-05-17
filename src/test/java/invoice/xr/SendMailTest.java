@@ -1,10 +1,15 @@
 package invoice.xr;
 
 
+import invoice.xr.model.InvoiceModel;
+import invoice.xr.service.InvoiceService;
 import invoice.xr.service.MailService;
+import invoice.xr.service.PaymentRecordService;
 import invoice.xr.service.SendEmailService;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +26,10 @@ public class SendMailTest {
 
     @Autowired
     private SendEmailService sendEmailService;
+    @Autowired
+    PaymentRecordService paymentRecordService;
+    @Autowired
+    InvoiceService invoiceService;
     /**
      * test normal email
      * @throws IOException 
@@ -31,17 +40,17 @@ public class SendMailTest {
 //        //sendEmailService.sendInvoiceNow("IN-20210412213814");
 //    }
 
-    @Test
-    public void sendHtmlMail() throws IOException{
-        String sc = "<html>\n" +
-                "<body>\n" +
-                "<p id=\"mailUuid\" style=\"display: none\">" + "bodys" + "</p>\n" +
-                "<p id=\"uuid\" style=\"\">" + "bodys2" + "</p>\n" +
-                "<p>CDE</p>\n" +
-                "</body>\n" +
-                "</html>";
-        mailService.sendHtmlMail("juewolf@bupt.edu.cn", "subject：hello, this is html email", sc);
-    }
+//    @Test
+//    public void sendHtmlMail() throws IOException{
+//        String sc = "<html>\n" +
+//                "<body>\n" +
+//                "<p id=\"mailUuid\" style=\"display: none\">" + "bodys" + "</p>\n" +
+//                "<p id=\"uuid\" style=\"\">" + "bodys2" + "</p>\n" +
+//                "<p>CDE</p>\n" +
+//                "</body>\n" +
+//                "</html>";
+//        mailService.sendHtmlMail("juewolf@bupt.edu.cn", "subject：hello, this is html email", sc);
+//    }
     /**
      * test file email
      */
@@ -50,4 +59,12 @@ public class SendMailTest {
 //
 //        mailService.sendAttachmentsMail("juewolf@bupt.edu.cn", "subject：hello, this is files email", "content：the first files email","src/test/java/invoice/xr/test.docx");
 //    }
+    @Test
+    public void sendRecipe(){
+        String number = "IN-20210506223733";
+        InvoiceModel invoice = invoiceService.getInvoice(number);
+        double paid = 3;
+        double total = 12;
+        paymentRecordService.addPaymentRecord(invoice,paid);
+    }
 }

@@ -391,7 +391,7 @@ public class InvoiceService {
 		}
 		updateInvoice(invoice);
 		// track money record
-		paymentRecordService.addPaymentRecord(invoice,paid,total - paid);
+		paymentRecordService.addPaymentRecord(invoice,paid);
 	}
 
 }

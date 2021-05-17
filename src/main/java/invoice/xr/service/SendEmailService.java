@@ -78,7 +78,7 @@ public class SendEmailService {
 
 		String Email = clientUser.getEmail();
 		String content = this.getRecipeData(paymentRecordModel,invoiceModel);
-		mailService.sendHtmlMail(Email,"Please check your recipe. This invoice is from InvoiceXr inc.",content);
+		mailService.sendHtmlMail(Email,"Please check your recipe. This recipe is from InvoiceXr inc.",content);
 	}
 
 	public String getRecipeData(PaymentRecordModel paymentRecordModel,InvoiceModel invoiceModel){
@@ -99,8 +99,8 @@ public class SendEmailService {
 				+ addressModel.getShippingLastName() + " <br>" + addressModel.getShippingStreetName() + "<br>"
 				+ addressModel.getShippingTown() + ", " + addressModel.getShippingCountry() + " <br>Post Code : "
 				+ addressModel.getShippingPostalCode() + "</p></td> \r\n" + "  </tr>\r\n" + "</table>";
-		String recipe = "<h4>You have paid"+paymentRecordModel.getPaid()+" GBP</h4>";
-		String thanks = invoiceModel.getDueAmount()!=0 ? "<h4>Thanks for you payment, You have "+invoiceModel.getDueAmount()+"GBP left to pay</h4>" :
+		String recipe = "<h4>You have paid "+paymentRecordModel.getPaid()+" GBP on "+paymentRecordModel.getCreatedDate()+"</h4>";
+		String thanks = invoiceModel.getDueAmount()!=0 ? "<h4>Thanks for you payment, You have "+invoiceModel.getDueAmount()+" GBP left to pay</h4>" :
 				"<h4>Thanks for you payment, you have paid all the money</h4>";
 		String end = "<h4><b>Best Wishes,</h4><h4>InvoiceXr Inc.</b></h4>";
 		return  header+table+date+recipe+thanks+end;
