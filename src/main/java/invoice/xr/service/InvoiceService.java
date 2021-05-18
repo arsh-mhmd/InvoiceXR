@@ -381,7 +381,7 @@ public class InvoiceService {
 		Double total = invoice.getAddress().getTotalPrice()
 				+ invoice.getAddress().getGrandTotal();
 
-		if (total == paid) {
+		if (total.equals(paid)) {
 			invoice.setStatus("PAID");
 			invoice.setPaidAmount(paid+invoice.getPaidAmount());
 			invoice.setDueAmount(total - paid);
