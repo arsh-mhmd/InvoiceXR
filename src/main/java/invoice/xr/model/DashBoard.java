@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 public class DashBoard{
 
-    private Integer id;
 
     private double amountMoney;
 
@@ -50,5 +49,16 @@ public class DashBoard{
 
     public void setPaidInvoices(int paidInvoices) {
         this.paidInvoices = paidInvoices;
+    }
+
+    @Override
+    public String toString() {
+        return  amountMoney +
+                "," + paidMoney +
+                "," + unpaidMoney +
+                "," + amountInvoices +
+                "," + unpaidInvoices +
+                "," + halfPaidInvoices +
+                "," + paidInvoices;
     }
 }
