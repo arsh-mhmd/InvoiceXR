@@ -65,11 +65,11 @@ public interface InvoiceDao extends Repository<InvoiceModel, Integer> {
 	@Transactional(readOnly = true)
 	int getAmountInvoices();
 
-	@Query("SELECT count(*) from InvoiceModel invoiceModel where invoiceModel.status='unPaid'" )
+	@Query("SELECT count(*) from InvoiceModel invoiceModel where invoiceModel.status='Awaiting payment'" )
 	@Transactional(readOnly = true)
 	int getUnpaidInvoices();
 
-	@Query("SELECT count(*) from InvoiceModel invoiceModel where invoiceModel.status='halfPaid'")
+	@Query("SELECT count(*) from InvoiceModel invoiceModel where invoiceModel.status='Partly Paid'")
 	@Transactional(readOnly = true)
 	int getHalfPaidInvoices();
 
