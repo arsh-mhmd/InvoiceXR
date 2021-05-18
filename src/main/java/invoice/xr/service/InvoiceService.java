@@ -380,16 +380,32 @@ public class InvoiceService {
 		InvoiceModel invoice = getInvoice(invoiceNo);
 		Double total = invoice.getAddress().getTotalPrice()
 				+ invoice.getAddress().getGrandTotal();
+
 		if (total == paid) {
-			invoice.setPaidAmount(paid);
 			invoice.setStatus("PAID");
+			invoice.setPaidAmount(paid+invoice.getPaidAmount());
 			invoice.setDueAmount(total - paid);
 		}
-//		else if ((total > paid)) {
-//			invoice.setPaidAmount(paid);
-//			invoice.setStatus("PARTLY PAID");
-//			invoice.setDueAmount(total - paid);
-//		}
+
+		updateInvoice(invoice);
+		// track money record
+		paymentRecordService.addPaymentRecord(invoice,paid);
+	}
+
+	public void updateInvoicePayment2(Double paid, String invoiceNo) {
+		InvoiceModel invoice = getInvoice(invoiceNo);
+		Double total = invoice.getAddress().getTotalPrice()
+				+ invoice.getAddress().getGrandTotal();
+		double oldDue = invoice.getDueAmount();
+		invoice.setPaidAmount(paid+invoice.getPaidAmount());
+		double d = (double) Math.round((invoice.getDueAmount() - paid) * 100) / 100;
+		invoice.setDueAmount(d);
+		if (oldDue <= paid) {
+			invoice.setStatus("PAID");
+		}
+		else if ((oldDue > paid)) {
+			invoice.setStatus("PARTLY PAID");
+		}
 		updateInvoice(invoice);
 		// track money record
 		paymentRecordService.addPaymentRecord(invoice,paid);
