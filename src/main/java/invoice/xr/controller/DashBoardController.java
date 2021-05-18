@@ -15,9 +15,9 @@ public class DashBoardController {
     DashBoardService dashBoard;
 
     @GetMapping("/dashBoard")
-    public ResponseEntity<DashBoard> createInvoice (){
+    public DashBoard createInvoice (){
         DashBoard db= dashBoard.getDashBoard();
-        return new ResponseEntity<>(db,HttpStatus.OK);
+        return db;
     }
 
 }
