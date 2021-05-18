@@ -15,9 +15,9 @@ public class DashBoardController {
     DashBoardService dashBoard;
 
     @GetMapping("/dashBoard")
-    public DashBoard createInvoice (){
+    public String dashBoardData (){
         DashBoard db= dashBoard.getDashBoard();
-        return db;
+        return db.toString();
     }
 
 }
