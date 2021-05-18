@@ -94,7 +94,7 @@ public class PaymentController {
 
 	@GetMapping("/payDirectly")
 	public ResponseEntity<String> payDirectly(@RequestParam("invoiceId") String invoiceId, @RequestParam("paid") String paid){
-		invoiceService.updateInvoicePayment2(Double.parseDouble(paid), invoiceId);
+		invoiceService.updateInvoicePayment(Double.parseDouble(paid), invoiceId);
 		return new ResponseEntity<>("pay successful", HttpStatus.CREATED);
 	}
 }
