@@ -90,4 +90,11 @@ public class PaymentController {
 		}
 		return new ModelAndView("redirect:"+"http://localhost:8080/success");
 	}
+
+
+	@GetMapping("/payDirectly")
+	public ResponseEntity<String> payDirectly(@RequestParam("invoiceId") String invoiceId, @RequestParam("paid") String paid){
+		invoiceService.updateInvoicePayment(Double.parseDouble(paid), invoiceId);
+		return new ResponseEntity<>("pay successful", HttpStatus.CREATED);
+	}
 }
