@@ -126,14 +126,6 @@ public class QuoteService {
 		return uniqueID;
 	}
 
-//	public void removeInvoiceById(String id) {
-//		InvoiceModel invoiceModel = invoiceDao.getAddressId(id);
-//		Integer addressId = invoiceModel.getAddress().getId();
-//		orderEntryDao.deleteEntriesByOrderId(addressId);
-//		invoiceDao.deleteInvoiceById(id);
-//		addressDao.deleteAddressById(addressId);
-//	}
-//
 	public List<QuoteModel> getAllQuotes() {
 		return quoteDao.findAllQuotes();
 	}
