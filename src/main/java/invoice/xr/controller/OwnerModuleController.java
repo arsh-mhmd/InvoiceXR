@@ -39,11 +39,6 @@ public class OwnerModuleController {
 	
 	@Autowired
 	private InvoiceService invoiceService;
-	
-	@GetMapping("/")
-	public String home() {
-		return "Welcome Owner";
-	}
 
 	@Autowired
 	private ReportService reportService;
@@ -53,7 +48,7 @@ public class OwnerModuleController {
 	 * addUser method is used to create new manager
 	 * 
 	 * @param userRecord
-	 * @return userRecord
+	 * @return InvoiceUserInfo
 	 */
 	@PostMapping("/createUser")
 	public InvoiceUserInfo addUser(@RequestBody InvoiceUserInfo userRecord) {
@@ -65,12 +60,10 @@ public class OwnerModuleController {
 	 * removeInvoice method is used to delete invoice from the table
 	 * 
 	 * @param id
-	 * @return
 	 */
 	@DeleteMapping("/removeInvoice")
-	public String removeInvoiceById(@RequestParam(value = "id") String id) {
+	public void removeInvoiceById(@RequestParam(value = "id") String id) {
 		invoiceService.removeInvoiceById(id);
-		return "Invoice Deleted";
 	}
 	
 	
@@ -78,7 +71,7 @@ public class OwnerModuleController {
 	 * getAllInvoiceUser is used to get all managers list.
 	 * 
 	 * @param requestHeader
-	 * @return
+	 * @return userInfos
 	 */
 	@GetMapping("/getManagers")
 	public Object getAllInvoiceUser(@RequestHeader HttpHeaders requestHeader) {
@@ -94,12 +87,10 @@ public class OwnerModuleController {
 	 * removeInvoiceUserById method is used to delete manager from the table
 	 * 
 	 * @param id
-	 * @return
 	 */
 	@DeleteMapping("/removeInvoiceUserById")
-	public String removeInvoiceUserById(@RequestParam(value = "id") Integer id) {
+	public void removeInvoiceUserById(@RequestParam(value = "id") Integer id) {
 		userService.removeInvoiceUserById(id);
-		return "Invoice User Deleted";
 	}
 	
 	/**
@@ -107,19 +98,17 @@ public class OwnerModuleController {
 	 * removeInvoiceUserByUserName method is used to delete manager from the table
 	 * 
 	 * @param id
-	 * @return
 	 */
 	@DeleteMapping("/removeInvoiceUserByName")
-	public String removeInvoiceUserByUserName(@RequestParam(value = "userName") String userName) {
+	public void removeInvoiceUserByUserName(@RequestParam(value = "userName") String userName) {
 		userService.removeInvoiceUserByUserName(userName);
-		return "Invoice User Deleted";
 	}
 	
 	/**
 	 * getInvoiceUserById is used fetch manager by id
 	 * 
 	 * @param id
-	 * @return
+	 * @return userInfo
 	 */
 	@GetMapping("/getInvoiceUser")
 	public ResponseEntity<InvoiceUserInfo> getInvoiceUserById(@RequestParam(value = "id") Integer id) {
@@ -131,9 +120,10 @@ public class OwnerModuleController {
 	}
 
 
-	/**
-	 *  getInvoiceByDate is used for owner to create report based on Date and sDate
-	 *
+	/**getInvoiceByDate is used for owner to create report based on Date and sDate
+	 * @param date
+	 * @param sDate
+	 * @return List<InvoiceModel>
 	 */
 	@GetMapping("/createReportByDate")
 	public ResponseEntity<List<InvoiceModel>> getInvoiceByDate(@RequestParam(value = "date") Date date,@RequestParam(value="sDate") Date sDate){
@@ -144,9 +134,9 @@ public class OwnerModuleController {
 		return new ResponseEntity<>(report, HttpStatus.OK);
 	}
 
-	/**
-	 *  getInvoiceByStatus is used for owner to create report based on payment status
-	 *
+	/**getInvoiceByStatus is used for owner to create report based on payment status
+	 * @param status
+	 * @return List<InvoiceModel>
 	 */
 	@GetMapping("/createReportByStatus")
 	public  ResponseEntity<List<InvoiceModel>> getInvoiceByStatus(@RequestParam(value = "status")String status){
@@ -157,9 +147,9 @@ public class OwnerModuleController {
 		return new ResponseEntity<>(report, HttpStatus.OK);
 	}
 
-	/**
-	 *  getInvoiceByClientId is used for owner to create report based on payment status
-	 *
+	/**getInvoiceByClientId is used for owner to create report based on payment status
+	 * @param id
+	 * @return List<InvoiceModel>
 	 */
 	@GetMapping("/createReportByClientId")
 	public  ResponseEntity<List<InvoiceModel>> getInvoiceByClientId(@RequestParam(value = "id")String id) {

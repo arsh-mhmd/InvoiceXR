@@ -36,35 +36,54 @@ public class InvoiceController {
 	InvoiceService invoiceService;
 	@Autowired
 	PaymentRecordService paymentRecordService;
+	
+	/**createInvoice is used to create invoice
+	 * 
+	 * @param invoiceDetails
+	 * @return InvoiceModel
+	 */
 	@PostMapping("/createInvoice")
 	public ResponseEntity<InvoiceModel> createInvoice(@RequestBody InvoiceModel invoiceDetails) {
 
 		invoiceService.createNewInvoice(invoiceDetails);
 		return new ResponseEntity<>(null, HttpStatus.CREATED);
-//		try {
-//			
-//		} catch (Exception e) {
-//			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
 	}
 	
+	/**getAllInvoices is used to fetch all invoices
+	 * 
+	 * @return List<InvoiceModel>
+	 */
 	@GetMapping("/getAllInvoices")
 	public ResponseEntity<List<InvoiceModel>> getAllInvoices() {
 		List<InvoiceModel> invoiceList = invoiceService.getAllInvoices();
 		return new ResponseEntity<>(invoiceList, HttpStatus.OK);
 	}
 	
+	/**getInvoice is used to fetch invoice by id
+	 * 
+	 * @param id
+	 * @return InvoiceModel
+	 */
 	@GetMapping("/getInvoice")
     public ResponseEntity<InvoiceModel> getInvoice(@RequestParam(name = "id") String id) {
         InvoiceModel invoice = invoiceService.getInvoiceById(id);
         return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 	
+	/**updateInvoice is used to update invoice details
+	 * 
+	 * @param invoiceDetails
+	 * @return InvoiceModel
+	 */
 	@PostMapping("/updateInvoice")
 	public ResponseEntity<InvoiceModel> updateInvoice(@RequestBody InvoiceModel invoiceDetails) {
 		InvoiceModel invoice = invoiceService.updateInvoice(invoiceDetails);
 		return new ResponseEntity<>(invoice, HttpStatus.CREATED);
 	}
+	
+	/**getAllPaymentRecord is used to get payment record
+	 * @return List<PaymentRecordModel>
+	 */
 	@GetMapping("/getPaymentRecord")
 	public ResponseEntity<List<PaymentRecordModel>> getAllPaymentRecord(){
 		List<PaymentRecordModel> paymentRecordModels = paymentRecordService.getAllPaymentList();

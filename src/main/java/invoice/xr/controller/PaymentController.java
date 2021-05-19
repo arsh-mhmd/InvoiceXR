@@ -29,6 +29,12 @@ import invoice.xr.model.InvoiceModel;
 import invoice.xr.service.InvoiceService;
 import invoice.xr.service.PaypalService;
 
+/**
+ * PaymentController allows the client to do payments.
+ * 
+ * @author Arshath Mohammed
+ *
+ */
 @Controller
 @RequestMapping("/")
 public class PaymentController {
@@ -44,6 +50,14 @@ public class PaymentController {
 	@Autowired
 	private InvoiceService invoiceService;
 
+	/**pay is used to update paypal payments 
+	 * @param request
+	 * @param response
+	 * @param total
+	 * @param invoiceNo
+	 * @return ApiResponse
+	 * @throws IOException
+	 */
 	@GetMapping("pay")
 	public ResponseEntity<ApiResponse> pay(HttpServletRequest request, HttpServletResponse response, 
 			@RequestParam(name = "total") Double total, @RequestParam(name = "invoiceNo") String invoiceNo) throws IOException{
@@ -69,12 +83,21 @@ public class PaymentController {
 		 return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Payment Success"), HttpStatus.CREATED);
 	}
 
+	/**cancelPay is used to redirect cancel page on payment cancellation
+	 * @return
+	 */
 	@GetMapping(PAYPAL_CANCEL_URL)
 	public ModelAndView cancelPay(){
 		return new ModelAndView("redirect:"+"http://localhost:8080/cancel");
 	}
 
 	
+	/**successPay is used to update payment in database and redirect to success page
+	 * @param paymentId
+	 * @param payerId
+	 * @return
+	 * @throws IOException
+	 */
 	@GetMapping(PAYPAL_SUCCESS_URL)
 	public ModelAndView successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) throws IOException{
 		try {
@@ -92,6 +115,11 @@ public class PaymentController {
 	}
 
 
+	/**payDirectly is used to do payment directly
+	 * @param invoiceId
+	 * @param paid
+	 * @return
+	 */
 	@GetMapping("/payDirectly")
 	public ResponseEntity<String> payDirectly(@RequestParam("invoiceId") String invoiceId, @RequestParam("paid") String paid){
 		invoiceService.updateInvoicePayment(Double.parseDouble(paid), invoiceId);

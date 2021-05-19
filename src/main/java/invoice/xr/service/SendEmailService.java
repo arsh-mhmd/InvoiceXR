@@ -57,8 +57,7 @@ public class SendEmailService {
 		String beforeEnd = "<h4><b>Best Wishes,</h4><h4>InvoiceXr Inc.</b></h4>";
 		String end = "<h4>You can make payment by clicking on this <a href=\"http://localhost:8081/InvoiceXR/pay?"
 				+ "total=" + withDue + "&invoiceNo=" + invoiceModel.getInvoiceNo() + "\">link</a> !"
-				+ "</h4>"
-						+ "<h4><a href=\"http://localhost:8081/clientQuote?quoteNo=QU-20210512205210"+"\">newlink</a></h4></body></html>";
+				+ "</h4></body></html>";
 		return header + table + date + end + attach + beforeEnd;
 	}
 

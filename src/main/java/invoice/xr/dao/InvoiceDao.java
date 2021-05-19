@@ -12,6 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import invoice.xr.model.ClientUser;
 import invoice.xr.model.InvoiceModel;
 
+/**InvoiceDao is used to CRUD operations of invoice_model
+ * 
+ * @author Arshath Mohammed
+ *
+ */
 public interface InvoiceDao extends Repository<InvoiceModel, Integer> {
 
 	void save(InvoiceModel invoiceModel);

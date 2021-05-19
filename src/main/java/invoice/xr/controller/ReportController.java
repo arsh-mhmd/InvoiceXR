@@ -32,8 +32,11 @@ public class ReportController {
 	
 	static private Logger logger = LogManager.getLogger(ReportController.class);
 
-
-	// generate invoice pdf
+    /**invoiceGenerate is used to generate invoice
+     * @param invoiceNo
+     * @return InputStreamResource
+     * @throws IOException
+     */
     @GetMapping(value = "/generate", produces = "application/pdf")
     public ResponseEntity<InputStreamResource> invoiceGenerate(@RequestParam(name = "invoiceNo", defaultValue = "IN-20210412213814") String invoiceNo) throws IOException {
         logger.info("Start invoice generation...");
@@ -45,6 +48,11 @@ public class ReportController {
         return new ResponseEntity<>(new InputStreamResource(new FileInputStream(invoicePdf)), httpHeaders, HttpStatus.OK);
     }
 
+    /**getHttpHeaders is used to set http headers
+     * @param invoiceNo
+     * @param invoicePdf
+     * @return HttpHeaders
+     */
     private HttpHeaders getHttpHeaders(String invoiceNo, File invoicePdf) {
         HttpHeaders respHeaders = new HttpHeaders();
         respHeaders.setContentType(APPLICATION_PDF);

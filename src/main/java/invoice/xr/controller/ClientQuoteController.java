@@ -24,7 +24,7 @@ import invoice.xr.service.QuoteService;
 
 
 /**
- * InvoiceController allows Manager or Owner to create invoice.
+ * ClientQuoteController is used to get response about the quote from client.
  * 
  * @author Arshath Mohammed
  *
@@ -35,22 +35,34 @@ public class ClientQuoteController {
 	@Autowired
 	QuoteService quoteService;
 	
+	/**getQuote is used to fetch quote details by quote no
+	 * 
+	 * @param quoteNo
+	 * 
+	 * @return QuoteModel
+	 */
 	@GetMapping("/approveQuote")
-    public ResponseEntity<QuoteModel> approveQuote(@RequestParam(name = "quoteNo") String quoteNo) {
+    public ResponseEntity<QuoteModel> getQuote(@RequestParam(name = "quoteNo") String quoteNo) {
 		QuoteModel quote = quoteService.getQuote(quoteNo);
         return new ResponseEntity<>(quote, HttpStatus.OK);
     }
 	
+	/**acceptQuote is used to set acceptance response from client
+	 * 
+	 * @param quoteNo
+	 */
 	@GetMapping("/acceptQuote")
-    public String acceptQuote(@RequestParam(name = "quoteNo") String quoteNo) {
+    public void acceptQuote(@RequestParam(name = "quoteNo") String quoteNo) {
 		quoteService.acceptQuote(quoteNo);
-        return "Quote Accepted";
     }
 	
+	/**declineQuote is used to set decline response from client
+	 * 
+	 * @param quoteNo
+	 */
 	@GetMapping("/declineQuote")
-    public String declineQuote(@RequestParam(name = "quoteNo") String quoteNo) {
+    public void declineQuote(@RequestParam(name = "quoteNo") String quoteNo) {
 		quoteService.declineQuote(quoteNo);
-        return "Quote Accepted";
     }
 	
 }

@@ -65,6 +65,7 @@ public class QuoteController {
 	public ResponseEntity<QuoteModel> convertQuote(@RequestBody QuoteModel quote) {
 
 		quoteService.createInvoiceFromQuote(quote);
+		quoteService.updateQuote(quote);
 		return new ResponseEntity<>(null, HttpStatus.CREATED);
 	}
 	

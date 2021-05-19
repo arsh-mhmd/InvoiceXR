@@ -31,11 +31,14 @@ import invoice.xr.service.InvoiceUserInfoService;
 @RestController
 @RequestMapping("/managerSpace")
 public class InvoiceUserController {
+	
 	@Autowired
 	private InvoiceUserInfoService userService;
 
-	
-
+	/**addUser is used to register new manager
+	 * @param userRecord
+	 * @return InvoiceUserInfo
+	 */
 	@PostMapping("/user")
 	public InvoiceUserInfo addUser(@RequestBody InvoiceUserInfo userRecord) {
 		return userService.addUser(userRecord);
@@ -53,12 +56,23 @@ public class InvoiceUserController {
 		return userService.updateUser(userRecord);
 	}
 	
+	/**findUserByUserName is used find manager by username
+	 * @param userName
+	 * @return InvoiceUserInfo
+	 */
 	@GetMapping("/getUserProfile")
 	public ResponseEntity<InvoiceUserInfo> findUserByUserName(@RequestParam(value = "userName") String userName) {
 		InvoiceUserInfo user = userService.getUserInfoByUserName(userName);
 		return new ResponseEntity<InvoiceUserInfo>(user, HttpStatus.OK);
 	}
 	
+	/**verifyUser is used to verify user authentication
+	 * 
+	 * @param userName
+	 * @param enpassword
+	 * @param rawpassword
+	 * @return Boolean
+	 */
 	@GetMapping("/verifyUser")
 	public Boolean verifyUser(@RequestParam(value = "userName") String userName,
 			@RequestParam(value = "enpassword") String enpassword,
@@ -81,15 +95,12 @@ public class InvoiceUserController {
 	 * 
 	 * @param userRecord
 	 * @param id
-	 * @return
+	 * @return InvoiceUserInfo
 	 */
 	@PutMapping("/user/changePassword/{id}")
 	public InvoiceUserInfo updateUserPassword(@RequestBody InvoiceUserInfo userRecord, @PathVariable Integer id) {
 		return userService.updatePassword(id,userRecord);
 	}
 
-	
-
-	
 }
 

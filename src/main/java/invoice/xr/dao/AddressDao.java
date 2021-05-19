@@ -7,6 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import invoice.xr.model.AddressModel;
 
+/**AddressDao is used to CRUD operations of address_model
+ * 
+ * @author Arshath Mohammed
+ *
+ */
 public interface AddressDao extends Repository<AddressModel, Integer> {
 
 	void save(AddressModel addressModel);

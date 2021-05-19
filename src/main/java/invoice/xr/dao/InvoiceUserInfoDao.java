@@ -9,6 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import invoice.xr.model.InvoiceUserInfo;
 
+/**InvoiceUserInfoDao is used to CRUD operations of invoice_user_info
+ * 
+ * @author Arshath Mohammed
+ *
+ */
 @Repository
 @Transactional
 public interface InvoiceUserInfoDao extends CrudRepository<InvoiceUserInfo, String> {
