@@ -5,33 +5,22 @@ package invoice.xr.model;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name="DashBoard")
-public class DashBoard{
-    @Id
-    @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
-    @Column(name="amountMoney")
+public class DashBoard{
+
+
     private double amountMoney;
 
-    @Column(name="paidMoney")
     private double paidMoney;
 
-    @Column(name="unpaidMoney")
     private double unpaidMoney;
 
-    @Column(name="amountInvoices")
     private int amountInvoices;
 
-    @Column(name="unpaidInvoices")
     private int unpaidInvoices;
 
-    @Column(name="halfPaidInvoices")
     private int halfPaidInvoices;
 
-    @Column(name="paidInvoices")
     private int paidInvoices;
 
     public void setAmountMoney(double amountMoney) {
@@ -60,5 +49,16 @@ public class DashBoard{
 
     public void setPaidInvoices(int paidInvoices) {
         this.paidInvoices = paidInvoices;
+    }
+
+    @Override
+    public String toString() {
+        return  amountMoney +
+                "," + paidMoney +
+                "," + unpaidMoney +
+                "," + amountInvoices +
+                "," + unpaidInvoices +
+                "," + halfPaidInvoices +
+                "," + paidInvoices;
     }
 }
