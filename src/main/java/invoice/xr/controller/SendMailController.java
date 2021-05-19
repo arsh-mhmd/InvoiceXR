@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import invoice.xr.model.QuoteModel;
 import invoice.xr.model.TimerModel;
+import invoice.xr.service.QuoteService;
 import invoice.xr.service.SendEmailService;
 
 /**
@@ -23,6 +25,9 @@ public class SendMailController {
 
     @Autowired
     SendEmailService sendEmailService;
+    
+    @Autowired
+    QuoteService quoteService;
 
     @GetMapping("/sendInvoiceNow")
     public ResponseEntity<String> SendInvoiceNow(@RequestParam(value = "invoiceId") String invoiceId) throws IOException {
@@ -40,10 +45,11 @@ public class SendMailController {
         }
     }
     @GetMapping("/sendQuoteNow")
-    public ResponseEntity<String> sendQuoteNow(@RequestParam(value = "quoteNo") String quoteNo) throws IOException {
+    public ResponseEntity<QuoteModel> sendQuoteNow(@RequestParam(value = "quoteNo") String quoteNo) throws IOException {
         System.out.println(quoteNo);
         sendEmailService.sendQuoteNow(quoteNo);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        QuoteModel quote = quoteService.getQuote(quoteNo);
+        return new ResponseEntity<>(quote, HttpStatus.CREATED);
     }
     
     
